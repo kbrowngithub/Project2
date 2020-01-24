@@ -1,12 +1,54 @@
 // Get references to page elements
 var $exampleText = $("#example-text");
 var $exampleDescription = $("#example-description");
+// var $locationText = $("#example-description");
 var $submitBtn = $("#submit");
 var $exampleList = $("#example-list");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  saveExample: function(example) {
+  // This function added by KB
+  getMapData: function (search) {
+    var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q="
+    // var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=Denver,CO"
+    var queryTerm = '';
+    for (let i = 0; i < search.length; i++) {
+      if (search[i] === ' ') {
+        queryTerm += '+';
+      } else {
+        queryTerm += search[i].toLowerCase();
+      }
+    }
+    return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
+      type: "GET",
+      url: url + queryTerm,
+      success: function (response) {
+        console.log(JSON.stringify(response[0], null, 2));
+        // TODO: Do we need to test for city value here???
+        // if (response[0].address.city) {
+        //     console.log(JSON.stringify(response));
+        //     var city = response[0].address.city;
+        //     //var postcode = response[0].address.postcode;
+        //     var state = response[0].address.state;
+        //     var lat = response[0].lat;
+        //     var lon = response[0].lon;
+        // } else {
+        //     console.log(response);
+        //     console.log('Incorrect search');
+        // }
+
+        // TODO: Do we need a DB push here???
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      }
+    });
+  },
+  saveExample: function (example) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -16,13 +58,13 @@ var API = {
       data: JSON.stringify(example)
     });
   },
-  getExamples: function() {
+  getExamples: function () {
     return $.ajax({
       url: "api/examples",
       type: "GET"
     });
   },
-  deleteExample: function(id) {
+  deleteExample: function (id) {
     return $.ajax({
       url: "api/examples/" + id,
       type: "DELETE"
@@ -30,12 +72,21 @@ var API = {
   }
 };
 
+// Added by KB: not sure if we'll need this later
+// Displays the JSON returned from Open Street Maps API
+var showMapData = function(data) {
+  var $examples = JSON.stringify(data);
+  $exampleList.empty();
+  $exampleList.append($examples);
+}
+
 // refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
+var refreshExamples = function () {
+  API.getExamples().then(function (data) {
+    var $examples = data.map(function (example) {
       var $a = $("<a>")
-        .text(example.text)
+        // .text(example.text)
+        .text(`${example.text}: ${example.description}`)
         .attr("href", "/example/" + example.id);
 
       var $li = $("<li>")
@@ -61,35 +112,42 @@ var refreshExamples = function() {
 
 // handleFormSubmit is called whenever we submit a new example
 // Save the new example to the db and refresh the list
-var handleFormSubmit = function(event) {
+var handleFormSubmit = function (event) {
   event.preventDefault();
 
   var example = {
     text: $exampleText.val().trim(),
     description: $exampleDescription.val().trim()
+    // location: $locationText.val().trim()
   };
 
   if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
+    alert("You must enter an example text and location!");
     return;
   }
 
-  API.saveExample(example).then(function() {
+  console.log(`example = ${JSON.stringify(example)}`);
+  API.saveExample(example).then(function () {
     refreshExamples();
   });
 
+  API.getMapData(example.description).then(function (data) {
+    // showMapData(JSON.stringify(data[0], null, 2));
+});
+
   $exampleText.val("");
   $exampleDescription.val("");
+  // $locationText.val("");
 };
 
 // handleDeleteBtnClick is called when an example's delete button is clicked
 // Remove the example from the db and refresh the list
-var handleDeleteBtnClick = function() {
+var handleDeleteBtnClick = function () {
   var idToDelete = $(this)
     .parent()
     .attr("data-id");
 
-  API.deleteExample(idToDelete).then(function() {
+  API.deleteExample(idToDelete).then(function () {
     refreshExamples();
   });
 };
