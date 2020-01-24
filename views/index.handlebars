@@ -1,22 +1,47 @@
+<div class="container-fluid header-container">
+
+  <div class="jumbotron">
+    <h1 class="header">Restaurant Finder</h1>
+    <hr>
+    <h3 class="sub-header">Welcome to Restaurant Finder!</h3>
+    <h3 class="sub-header">This app will make finding and deciding on where to eat an easy breezy experience.</h3>
+    <h3 class="sub-header">Our survey will take in your dietary restrictions, cravings, favorites and more,
+      to help us find a just right restaurant for you.</h3>
+    <br>
+    <h3 class="sub-header">Happy Eating!</h3>
+    <br>
+  </div>
+</div>
+
+
 <div id="home">
-  <div class="container">
+  <div class="container info-container">
     <div class="row">
       <div class="col-8 offset-2">
-        <h1>{{msg}}</h1>
-        <h2>This is our Home Page!</h2>
+        <h3>Enter your Name, Number, and Location to get started</h3>
         <form class="clearfix mb-4" action="POST">
+
           <div class="form-group">
-            <label for="example-text">Example Text</label>
-            <input type="text" id="example-text" class="form-control" aria-describedby="example-text" placeholder="Enter Example Text">
+            <label for="name">Name</label>
+            <input type="text" id="name" class="form-control" aria-describedby="name" placeholder="e.g John Doe">
           </div>
-          {{!-- Modified this div to solicit a location rather than the example text --}}
+
           <div class="form-group">
-            <label for="example-description">Enter A Location</label>
-            <input type="text" id="example-description" class="form-control" aria-describedby="example-description" placeholder="e.g Denver, CO">
+            <label for="number">Number</label>
+            <input type="text" id="number" class="form-control" aria-describedby="number" placeholder="e.g 800-222-4444">
           </div>
-          <button id="submit" class="btn btn-primary float-right">Submit</button>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" class="form-control" aria-describedby="location"
+              placeholder="e.g Denver, CO">
+          </div>
+
+          <div>
+            <a href="/second"><button type="button" class="btn btn-primary float-right">Submit</button></a>
+          </div>
         </form>
-        <h3>Response Data:</h3>
+        {{!-- <h3>Response Data:</h3>
         <ul id="example-list" class="list-group">
           {{#each examples}}
           <li data-id="{{this.id}}" class="list-group-item">
@@ -24,7 +49,7 @@
             <button class="btn btn-danger float-right delete">ｘ</button>
           </li>
           {{/each}}
-        </ul>
+        </ul> --}}
       </div>
     </div>
   </div>
