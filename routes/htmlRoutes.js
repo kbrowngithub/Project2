@@ -31,6 +31,34 @@ module.exports = function (app) {
 
   });
 
+  // KB Sequelize Testing
+  app.get("/api/:table", function (req, res) {
+    
+    console.log(`htmlRoutes.js: req.params.table = ${req.params.table}`);
+    switch (req.params.table) {
+      case "users":
+        db.User.findAll({}).then(function (data) {
+          res.json(data);
+        });
+        break;
+
+      case "restaurants":
+        db.Restaurant.findAll({}).then(function (data) {
+          res.json(data);
+        });
+        break;
+
+      case "posts":
+        db.Post.findAll({}).then(function (data) {
+          res.json(data);
+        });
+        break;
+
+      default:
+        res.json({ status: "404" });
+    }
+  });
+
   // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
     res.render("404");

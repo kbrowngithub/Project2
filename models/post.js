@@ -22,12 +22,6 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false
       }
     });
-
-    Post.hasOne(models.Restaurant, {
-      foreignKey: {
-        allowNull: false
-      }
-    });
   };
 
   return Post;
