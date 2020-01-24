@@ -1,5 +1,6 @@
 // Get references to page elements
 var $name = $("#name");
+var $cell = $("#number");
 var $location = $("#location");
 // var $locationText = $("#example-description");
 var $submitBtn = $("#submit");
@@ -115,27 +116,29 @@ var refreshExamples = function () {
 var handleFormSubmit = function (event) {
   event.preventDefault();
 
-  var example = {
-    text: $name.val().trim(),
-    description: $location.val().trim()
+  var user = {
+    name: $name.val().trim(),
+    cell: $cell.val().trim(),
+    location: $location.val().trim()
     // location: $locationText.val().trim()
   };
 
-  if (!(example.text && example.description)) {
-    alert("You must enter a name and location");
+  if (!(user.name && user.cell && user.location)) {
+    alert("You must enter a name, number, and location");
     return;
   }
 
-  console.log(`example = ${JSON.stringify(example)}`);
-  API.saveExample(example).then(function () {
+  console.log(`user = ${JSON.stringify(user)}`);
+  API.saveExample(user).then(function () {
     refreshExamples();
   });
 
-  API.getMapData(example.description).then(function (data) {
+  API.getMapData(user.location).then(function (data) {
     // showMapData(JSON.stringify(data[0], null, 2));
 });
 
   $name.val("");
+  $cell.val("");
   $location.val("");
   // $locationText.val("");
 };

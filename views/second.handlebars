@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-8 offset-2">
+      <br>
+        <a href="/">← Back To Home</a>
       <div class="card mt-4">
         <div class="card-body">
             {{#if user_name}}
@@ -12,7 +14,8 @@
                     <p>Hi {{user_name}}!</p>
                 </div>
             {{/if}}
-            <a href="/">← Back To Home</a>
+
+            <a href="/survey"><button type="button" class="btn btn-primary float-right">Take Survey</button></a>
         </div>
       </div>
     </div>

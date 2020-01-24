@@ -22,7 +22,7 @@ module.exports = function (app) {
   // Added by JT. This will launch the second.handlebars page
   app.get("/second", function (req, res) {
     res.render("second", {
-      user_name: "Susan"
+      user_name: {}
     });
   });
 
