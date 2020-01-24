@@ -18,6 +18,14 @@ module.exports = function(app) {
     res.json(tmpData);
   });
 
+  // KB Sequelize Testing
+  app.get("/api/:table", function(req, res) {
+    db.User.findAll({}).then(function(data) {
+      res.json(data);
+    });
+  });
+
+
   // Get all examples
   app.get("/api/examples", function(req, res) {
     db.Example.findAll({}).then(function(dbExamples) {
