@@ -1,6 +1,6 @@
 // Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
+var $name = $("#name");
+var $location = $("#location");
 // var $locationText = $("#example-description");
 var $submitBtn = $("#submit");
 var $exampleList = $("#example-list");
@@ -116,13 +116,13 @@ var handleFormSubmit = function (event) {
   event.preventDefault();
 
   var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+    text: $name.val().trim(),
+    description: $location.val().trim()
     // location: $locationText.val().trim()
   };
 
   if (!(example.text && example.description)) {
-    alert("You must enter an example text and location!");
+    alert("You must enter a name and location");
     return;
   }
 
@@ -135,8 +135,8 @@ var handleFormSubmit = function (event) {
     // showMapData(JSON.stringify(data[0], null, 2));
 });
 
-  $exampleText.val("");
-  $exampleDescription.val("");
+  $name.val("");
+  $location.val("");
   // $locationText.val("");
 };
 
