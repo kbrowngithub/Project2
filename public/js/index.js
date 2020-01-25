@@ -20,6 +20,8 @@ var API = {
         queryTerm += search[i].toLowerCase();
       }
     }
+    //NATHANIEL'S API
+    this.getTripAdvisor(queryTerm)
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -49,6 +51,40 @@ var API = {
       }
     });
   },
+  //NATHANIEL's API STUFF
+  getTripAdvisor: function (city) {
+    function citySettings(city) {
+      return {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+        }
+      }
+    }
+    function restaurantSettings(lat, lon) {
+      return {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&lang=en_US&latitude=" + lat + "&longitude=" + lon,
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+        }
+      }
+    }
+
+    $.ajax(citySettings(city)).done(function ({ data }) {
+      const { latitude, longitude } = data[0].result_object;
+      $.ajax(restaurantSettings(latitude, longitude)).done(function ({ data }) {
+        console.log(data);
+      });
+    });
+  },
   saveExample: function (example) {
     return $.ajax({
       headers: {
@@ -75,7 +111,7 @@ var API = {
 
 // Added by KB: not sure if we'll need this later
 // Displays the JSON returned from Open Street Maps API
-var showMapData = function(data) {
+var showMapData = function (data) {
   var $examples = JSON.stringify(data);
   $exampleList.empty();
   $exampleList.append($examples);
@@ -135,7 +171,7 @@ var handleFormSubmit = function (event) {
 
   API.getMapData(user.location).then(function (data) {
     // showMapData(JSON.stringify(data[0], null, 2));
-});
+  });
 
   $name.val("");
   $cell.val("");
@@ -158,3 +194,4 @@ var handleDeleteBtnClick = function () {
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
+
