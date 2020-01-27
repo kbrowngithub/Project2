@@ -1,47 +1,35 @@
-<div class="container-fluid header-container">
+<body class="index-body">
 
-  <div class="jumbotron">
-    <h1 class="header">Restaurant Finder</h1>
-    <hr>
-    <h3 class="sub-header">Welcome to Restaurant Finder!</h3>
-    <h3 class="sub-header">This app will make finding and deciding on where to eat an easy breezy experience.</h3>
-    <h3 class="sub-header">Our survey will take in your dietary restrictions, cravings, favorites and more,
-      to help us find a just right restaurant for you.</h3>
+  <div class="container first-container">
+    <h1 class="header text-center">Restaurant Finder</h1>
+
+    <p class="sub-header text-center">This app will make finding and deciding on where to eat an easy breezy experience.
+    </p>
+    <p class="sub-header text-center">Our survey will take in your dietary restrictions, cravings, favorites and more,
+      to help us find a just right restaurant for you.</p>
     <br>
-    <h3 class="sub-header">Happy Eating!</h3>
-    <br>
-  </div>
-</div>
 
+    <div class="user-info-form">
+      <h4>Enter your Name and Number to get started</h4>
 
-<div id="home">
-  <div class="container info-container">
-    <div class="row">
-      <div class="col-8 offset-2">
-        <h3>Enter your Name, Number, and Location to get started</h3>
-        <form class="clearfix mb-4" action="POST">
+      <form class="clearfix mb-4" action="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="form-control" aria-describedby="name" placeholder="e.g John Doe">
+        </div>
 
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" class="form-control" aria-describedby="name" placeholder="e.g John Doe">
-          </div>
+        <div class="form-group">
+          <label for="number">Phone Number</label>
+          <input type="text" id="number" class="form-control" aria-describedby="number"
+            placeholder="e.g 8002224444 (enter without dashes)">
+        </div>
+        <div id="first-error-message"></div>
 
-          <div class="form-group">
-            <label for="number">Number</label>
-            <input type="text" id="number" class="form-control" aria-describedby="number" placeholder="e.g 800-222-4444">
-          </div>
-
-          <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" id="location" class="form-control" aria-describedby="location"
-              placeholder="e.g Denver, CO">
-          </div>
-
-          <div>
-            <a href="/second"><button id="submit" type="button" class="btn btn-primary float-right">Submit</button></a>
-          </div>
-        </form>
-        {{!-- <h3>Response Data:</h3>
+        <div>
+          <button id="submit" type="button" class="btn btn-outline-light float-right">Submit</button>
+        </div>
+      </form>
+      {{!-- <h3>Response Data:</h3>
         <ul id="example-list" class="list-group">
           {{#each examples}}
           <li data-id="{{this.id}}" class="list-group-item">
@@ -50,11 +38,11 @@
           </li>
           {{/each}}
         </ul> --}}
-      </div>
     </div>
   </div>
-</div>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script src="/js/index.js"></script>
+  <script src="/js/index.js"></script>
+
+</body>
