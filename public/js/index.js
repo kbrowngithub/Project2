@@ -101,9 +101,12 @@ var API = {
   getUser: function (user) {
     // console.log(`getUser(): user = ${JSON.stringify(user)}`);
     return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
       url: "api/user",
       type: "POST",
-      data: user
+      data: JSON.stringify(user)
     });
   },
   saveExample: function (example) {
@@ -187,10 +190,8 @@ var handleFormSubmit = function (event) {
   console.log(`user = ${JSON.stringify(user)}`);
   API.getUser(user).then(function (result) {
     // refreshExamples();
-    console.log(`result: ${result}`);
-    res.render("second", {
-      user_name: result.name
-    });
+    console.log(`result: ${JSON.stringify(result)}`);
+    
   });
 
   // API.getMapData(user.location).then(function (data) {
