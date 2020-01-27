@@ -2,7 +2,7 @@
 var $name = $("#name");
 var $cell = $("#number");
 var $location = $("#location");
-// var $locationText = $("#example-description");
+
 var $submitBtn = $("#submit");
 var $exampleList = $("#example-list");
 
@@ -168,20 +168,21 @@ var refreshExamples = function () {
   });
 };
 
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
+
+// handle form submit user info with onclick and redirects to second page
 var handleFormSubmit = function (event) {
   event.preventDefault();
 
   var user = {
     name: $name.val().trim(),
-    cell: $cell.val().trim()
+    cell: $cell.val().trim(),
   };
 
+  // if user doesn't fill in all fields display message
   if (!(user.name && user.cell)) {
-    alert("You must enter a name and a cell number!");
+    $("#first-error-message").text("Please enter a name and phone number");
     return;
-  }
+  };
 
   console.log(`user = ${JSON.stringify(user)}`);
   API.getUser(user).then(function (result) {
@@ -200,6 +201,49 @@ var handleFormSubmit = function (event) {
   $cell.val("");
 };
 
+// added by jodi
+// on click function to open modal for users location
+$("#open-location-modal").on("click", function (event) {
+  event.preventDefault();
+
+  // Show the modal to take in users location
+  $("#location-modal").modal("toggle");
+});
+
+
+// added by jodi
+// on click function to log location data and take user to survey page
+$("#go-to-survey").on("click", function (event) {
+  event.preventDefault();
+
+  var location = $location.val().trim();
+
+  if (!(location)) {
+    $("#error-message").text("Please enter your location");
+    return;
+  }
+
+  console.log(`location = ${JSON.stringify(location)}`);
+
+  API.saveExample(location).then(function () {
+    refreshExamples();
+  });
+
+  API.getMapData(location).then(function (data) {
+  //     showMapData(JSON.stringify(data[0], null, 2));
+  });
+  $location.val("");
+});
+
+// added by jodi
+// on click function to open survey results modal
+$("#survey-submit").on("click", function (event) {
+  event.preventDefault();
+
+  // Show the modal to take in users location
+  $("#results-modal").modal("toggle");
+});
+
 // handleDeleteBtnClick is called when an example's delete button is clicked
 // Remove the example from the db and refresh the list
 var handleDeleteBtnClick = function () {
@@ -211,8 +255,11 @@ var handleDeleteBtnClick = function () {
     refreshExamples();
   });
 };
-
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
+<<<<<<< HEAD
 // $exampleList.on("click", ".delete", handleDeleteBtnClick);
 
+=======
+$exampleList.on("click", ".delete", handleDeleteBtnClick);
+>>>>>>> 7c6991cad65929c01ede57e5e570dbaadd687b7c
