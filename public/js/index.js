@@ -21,7 +21,12 @@ var API = {
       }
     }
     //NATHANIEL'S API
-    this.getTripAdvisor(queryTerm)
+    // this.getTripAdvisor(queryTerm).then(function (data) {
+    //   console.log("NATHANIEL'S APICALL: ", data)
+    // }).catch(function (error) {
+    //   console.log(error)
+    // })
+
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -52,38 +57,45 @@ var API = {
     });
   },
   //NATHANIEL's API STUFF
-  getTripAdvisor: function (city) {
-    function citySettings(city) {
-      return {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
-        "method": "GET",
-        "headers": {
-          "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+  getTripAdvisor: function (city, paramsArr) {
+    return new Promise(function (resolve, reject) {
+      function citySettings(city) {
+        return {
+          "async": true,
+          "crossDomain": true,
+          "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
+          "method": "GET",
+          "headers": {
+            "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+            "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+          }
         }
       }
-    }
-    function restaurantSettings(lat, lon) {
-      return {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&lang=en_US&latitude=" + lat + "&longitude=" + lon,
-        "method": "GET",
-        "headers": {
-          "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+      function restaurantSettings(lat, lon) {
+        return {
+          "async": true,
+          "crossDomain": true,
+          "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" +paramsArr.join("%252C")+ "&lang=en_US&latitude=" + lat + "&longitude=" + lon,
+          "method": "GET",
+          "headers": {
+            "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+            "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+          }
         }
       }
-    }
 
-    $.ajax(citySettings(city)).done(function ({ data }) {
-      const { latitude, longitude } = data[0].result_object;
-      $.ajax(restaurantSettings(latitude, longitude)).done(function ({ data }) {
-        console.log(data);
-      });
-    });
+      $.get(citySettings(city))
+        .then(function ({ data }) {
+          const { latitude, longitude } = data[0].result_object;
+          return $.get(restaurantSettings(latitude, longitude))
+        })
+        .then(function ({ data }) {
+          resolve(data);
+        })
+        .catch(function (error) {
+          reject(error)
+        });
+    })
   },
 
   getUser: function (user) {
