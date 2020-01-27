@@ -37,6 +37,62 @@ var json = {
             title: "You're in a hurry.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q4",
+            title: "You are in the mood for seafood.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q5",
+            title: "You like home cooked meals.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q6",
+            title: "you need gluten free options.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q7",
+            title: "sandwiches sound amazing.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q8",
+            title: "Your in the mood for a great salad.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q9",
+            title: "you would love a buffet.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
+        },
+        {
+            type: "rating",
+            isRequired: true,
+            name: "q10",
+            title: "you need a good apatizer.",
+            minRateDescription: "1 (Strongly Disagree)",
+            maxRateDescription: "5 (Strongly Agree)"
         }
     ]
 };
@@ -48,7 +104,14 @@ survey.onComplete.add(function (result) {
         scores: [
             result.data.q1,
             result.data.q2,
-            result.data.q3
+            result.data.q3,
+            result.data.q4,
+            result.data.q5,
+            result.data.q6,
+            result.data.q7,
+            result.data.q8,
+            result.data.q9,
+            result.data.q10
         ]
     };
 
@@ -73,6 +136,27 @@ survey.onComplete.add(function (result) {
     }
     if(result.data.q3 >= 3){
         search.push('fast%20food')
+    }
+    if(result.data.q4 >= 3){
+        search.push('sea%20food')
+    }
+    if(result.data.q5 >= 3){
+        search.push('family%20style')
+    }
+    if(result.data.q6 >= 3){
+        search.push('gluten%20free')
+    }
+    if(result.data.q7 >= 3){
+        search.push('sandwiches')
+    }
+    if(result.data.q8 >= 3){
+        search.push('salads')
+    }
+    if(result.data.q9 >= 3){
+        search.push('buffet')
+    }
+    if(result.data.q10 >= 3){
+        search.push('apatizers')
     }
 
     API.getTripAdvisor("Houston", search)
