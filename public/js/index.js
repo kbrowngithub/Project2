@@ -99,7 +99,7 @@ var API = {
   },
 
   getUser: function (user) {
-    // console.log(`getUser(): user = ${JSON.stringify(user)}`);
+    console.log(`getUser(): user = ${JSON.stringify(user)}`);
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -107,6 +107,13 @@ var API = {
       url: "api/user",
       type: "POST",
       data: JSON.stringify(user)
+    });
+  },
+  showUser: function (name) {
+    console.log(`In showUser() name = ${name}`);
+    return $.ajax({
+      url: "/second/"+name,
+      type: "GET"
     });
   },
   saveExample: function (example) {
@@ -141,6 +148,14 @@ var showMapData = function (data) {
   $exampleList.append($examples);
 }
 
+var pageTwo = function (name) {
+  $.ajax({
+    url: "/second",
+    type: "GET",
+    data: name
+  });
+}
+
 // refreshExamples gets new examples from the db and repopulates the list
 var refreshExamples = function () {
   API.getExamples().then(function (data) {
@@ -171,7 +186,6 @@ var refreshExamples = function () {
   });
 };
 
-
 // handle form submit user info with onclick and redirects to second page
 var handleFormSubmit = function (event) {
   event.preventDefault();
@@ -187,19 +201,11 @@ var handleFormSubmit = function (event) {
     return;
   };
 
-  console.log(`user = ${JSON.stringify(user)}`);
-  API.getUser(user).then(function (result) {
+  API.getUser(user).then(function(data) {
+    console.log(`data = ${JSON.stringify(data[0])}`);
     // refreshExamples();
-    console.log(`result: ${JSON.stringify(result)}`);
-    
+    location.replace("/second/" + data[0].name);
   });
-
-  // API.getMapData(user.location).then(function (data) {
-  //   // showMapData(JSON.stringify(data[0], null, 2));
-  // });
-
-  $name.val("");
-  $cell.val("");
 };
 
 // added by jodi
