@@ -1,211 +1,31 @@
-<!DOCTYPE html>
-<html>
+<!-- <h1>Test Page</h1> -->
+<div id="surveyElement"></div>
+{{!-- <div id="surveyResult"></div> --}}
+<div>
+    <ul>
+        <li id="rname"></li>
+        <li id="raddress"></li>
+        <li id="rphone"></li>
+    </ul>
+</div>
 
-<head>
-    <title>Restaurant Finder Survey</title>
+<!-- Trigger/Open The Modal -->
+<button id="myBtn" class="btn">Get Restaurants</button>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <button id="resetBtn" class="btn">Retake Survey</button> -->
 
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="https://surveyjs.azureedge.net/1.1.31/survey.jquery.js"></script>
-    <link href="https://surveyjs.azureedge.net/1.1.31/modern.css" type="text/css" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="./index.css"> -->
-
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* The Modal (background) */
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            padding-top: 100px;
-            /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-        }
-
-        /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #myBtn {
-            display: none;
-            float: right;
-            border: none;
-            border-radius: 1.214em;
-            color: #ffffff;
-            cursor: pointer;
-            font-family: Segoe UI;
-            font-size: 0.875em;
-            font-weight: bold;
-            outline: none;
-            padding: 0.5em 2.786em 0.6em;
-            text-align: left;
-            background-color: #1ab394;
-            float: left;
-        }
-
-        #resetBtn {
-            display: none;
-            float: right;
-            border: none;
-            border-radius: 1.214em;
-            color: #ffffff;
-            cursor: pointer;
-            font-family: Segoe UI;
-            font-size: 0.875em;
-            font-weight: bold;
-            outline: none;
-            padding: 0.5em 2.786em 0.6em;
-            text-align: left;
-            background-color: #1ab394;
-            float: right;
-        }
-
-        #match-img {
-            object-fit: cover;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- <h1>Test Page</h1> -->
-    <div id="surveyElement"></div>
-    {{!-- <div id="surveyResult"></div> --}}
-    <div>
-        <ul>
-            <li id="rname"></li>
-            <li id="raddress"></li>
-            <li id="rphone"></li>
-        </ul>
-    </div>
-
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn" class="btn">Get Restaurants</button>
-
-    <!-- <button id="resetBtn" class="btn">Retake Survey</button> -->
-
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">
-                <h1 class="modal-title"><strong>Best Match</strong></h1>
-            </div>
-            <div class="modal-body">
-                <h2 id="match-name"></h2>
-                <img id="match-img" src="" alt="" height="200" width="200">
-            </div>
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+            <h1 class="modal-title"><strong>Best Match</strong></h1>
         </div>
-
+        <div class="modal-body">
+            <h2 id="match-name"></h2>
+            <img id="match-img" src="" alt="" height="200" width="200">
+        </div>
     </div>
 
-    <!-- <script type="text/javascript" src="./index.js"></script> -->
-    <script type="text/javascript">
-        Survey
-            .StylesManager
-            .applyTheme("modern");
-
-        var json = {
-            "completedHtml": "<h3>Restaurant Recommendations</h3>",
-            "completedHtmlOnCondition": [
-                {
-                    "expression": "{nps_score} > 8",
-                    "html": "<h5>Conditional message here!</h5>"
-                }, {
-                    "expression": "{nps_score} < 7",
-                    "html": "<h5>Alternative conditional message here!</h5>\n"
-                }
-            ],
-            questions: [
-                {
-                    type: "rating",
-                    isRequired: true,
-                    name: "q1",
-                    title: "You like spicy food.",
-                    minRateDescription: "1 (Strongly Disagree)",
-                    maxRateDescription: "5 (Strongly Agree)"
-                },
-                {
-                    type: "rating",
-                    isRequired: true,
-                    name: "q2",
-                    title: "You tend to appreciate vegan options on a menu.",
-                    minRateDescription: "1 (Strongly Disagree)",
-                    maxRateDescription: "5 (Strongly Agree)"
-                },
-                {
-                    type: "rating",
-                    isRequired: true,
-                    name: "q3",
-                    title: "You're in a hurry.",
-                    minRateDescription: "1 (Strongly Disagree)",
-                    maxRateDescription: "5 (Strongly Agree)"
-                }
-            ]
-        };
-
-        window.survey = new Survey.Model(json);
-
-        survey.onComplete.add(function (result) {
-            var userData = {
-                scores: [
-                    result.data.q1,
-                    result.data.q2,
-                    result.data.q3
-                ]
-            };
-            $.post("/api/restaurants", userData, function (data) {
-                console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
-
-                // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-                console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
-                $('#rname').text(data.name);
-                $('#raddress').text(data.address);
-                $('#rphone').text(data.phone);
-            });
-        });
-
-        $("#surveyElement").Survey({ model: survey });
-    </script>
-</body>
-
-</html>
+</div>
