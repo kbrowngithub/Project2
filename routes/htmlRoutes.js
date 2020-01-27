@@ -19,11 +19,11 @@ module.exports = function (app) {
   // });
 
   // Load Second Page
-  // Added by JT. This will launch the second.handlebars page
+  // this will launch the second.handlebars page
   app.get("/second", function (req, res) {
     res.render("second", {
-      user_name: {}
-    });
+      name: {}
+      });
   });
 
   // Load survey page

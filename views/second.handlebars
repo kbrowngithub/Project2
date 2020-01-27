@@ -1,23 +1,78 @@
-<div class="container">
-  <div class="row">
-    <div class="col-8 offset-2">
-      <br>
-        <a href="/">← Back To Home</a>
-      <div class="card mt-4">
-        <div class="card-body">
-            {{#if user_name}}
-                <div class="returning-user">
-                    <p>Hi {{user_name}}! Welcome back!</p>
-                </div>
+<body class="second-body">
+  <div class="container second-container">
+    {{!-- <div class="row">
+      <div class="col-8 offset-2"> --}}
+        <br>
+        {{!-- <div class="card mt-4">
+          <div class="card-body"> --}}
+            <div class="welcome-user">
+              {{#if user}}
+              <h4 class="users-name">Hi {{name}}! Welcome back!</h4>
+              {{else}}
+              <p class="users-name">Hi {{name}}!</p>
+              {{/if}}
+            </div>
+
+            <hr>
+
+            <div class="saved-restaurants">
+              {{#if returning_user}}
+              <h6>Previously Visited Restaurants:</h6>
+              <ul class="list-group">
+                {{!-- fillers for example layout --}}
+                <li class="list-group-item d-flex justify-content-between align-items-center">El Pueblito
+                  <span class="rate-emojis">&#129314 &#128533 &#128528 &#128522 &#129316</span>
+                </li>
+              </ul>
+            </div>
             {{else}}
-                <div class="new-user">
-                    <p>Hi {{user_name}}!</p>
-                </div>
+            <h6>You have no saved restaurants.</h6>
             {{/if}}
 
-            <a href="/survey"><button type="button" class="btn btn-primary float-right">Take Survey</button></a>
-        </div>
-      </div>
-    </div>
+            <br>
+            {{!-- button takes user to home page --}}
+            <a href="/" class="btn btn-outline-light float-right exit">Exit</a>
+
+            {{!-- button trigger modal --}}
+            <button id="open-location-modal" type="button" class="btn btn-outline-light float-right" data-toggle="modal"
+              data-target="#location-modal">Restaurant Finder Survey</button>
+
+            {{!-- Location Modal --}}
+            <div class="modal fade" id="location-modal" tabindex="-1" role="dialog"
+              aria-labelledby="location-modal-title" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="location-modal-title">Enter Current Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="location">City or ZIP</label>
+                      <input type="text" id="location" class="form-control" aria-describedby="location"
+                        placeholder="e.g 80238 OR Denver, CO">
+                    </div>
+                    <p id="error-message"></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    {{!-- button within modal takes user to survey --}}
+                    <button type="button" id="go-to-survey" class="btn btn-outline-dark float-right take-survey">Go to
+                      Survey</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{!-- </div>
+        </div> --}}
+      {{!-- </div>
+    </div> --}}
   </div>
-</div>
+
+</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>

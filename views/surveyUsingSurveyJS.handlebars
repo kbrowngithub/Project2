@@ -1,30 +1,46 @@
-<!-- <h1>Test Page</h1> -->
-<div id="surveyElement"></div>
-{{!-- <div id="surveyResult"></div> --}}
-<div>
-    <ul>
-        <li id="rname"></li>
-        <li id="raddress"></li>
-        <li id="rphone"></li>
-    </ul>
-</div>
+<div class="container">
+    <!-- <h1>Test Page</h1> -->
+    <div id="surveyElement"></div>
+    {{!-- <div id="surveyResult"></div> --}}
+    <div>
+        <ul>
+            <li id="rname"></li>
+            <li id="raddress"></li>
+            <li id="rphone"></li>
+        </ul>
+    </div>
 
-<!-- Trigger/Open The Modal -->
-<button id="myBtn" class="btn">Get Restaurants</button>
 
-<!-- <button id="resetBtn" class="btn">Retake Survey</button> -->
+    {{!-- Open results modal --}}
+    <button type="button" id="survery-submit" class="btn btn-primary" data-toggle="modal" data-target="#results-modal">
+        Submit
+    </button>
 
-<!-- Modal -->
-<div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="modal-header">
-            <h1 class="modal-title"><strong>Best Match</strong></h1>
-        </div>
-        <div class="modal-body">
-            <h2 id="match-name"></h2>
-            <img id="match-img" src="" alt="" height="200" width="200">
+    {{!-- Results Modal --}}
+    <div class="modal fade" id="results-modal" tabindex="-1" role="dialog" aria-labelledby="results-modal-title"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="results-modal-title">Suggested Restaurants:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{!-- Suggested Restaurants will go here --}}
+                    <div class="suggested-restaurants">BEST ONE EVER
+                        {{!-- radio button --}}
+                        <input class="form-check-input position-static float-right" type="radio" name="blankRadio"
+                            id="blankRadio1" value="option1" aria-label="...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="reset-btn" class="btn btn-secondary" data-dismiss="modal">Retake
+                        Survey</button>
+                    <a href="/second"><button type="button" class="btn btn-primary">Save</button></a>
+                </div>
+            </div>
         </div>
     </div>
 
