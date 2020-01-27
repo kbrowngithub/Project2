@@ -184,8 +184,12 @@ var handleFormSubmit = function (event) {
   }
 
   console.log(`user = ${JSON.stringify(user)}`);
-  API.getUser(user).then(function () {
-    refreshExamples();
+  API.getUser(user).then(function (result) {
+    // refreshExamples();
+    console.log(`result: ${result}`);
+    res.render("second", {
+      user_name: result.name
+    });
   });
 
   // API.getMapData(user.location).then(function (data) {
