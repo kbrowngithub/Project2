@@ -60,6 +60,7 @@ module.exports = function (app) {
     }
   });
 
+  
 
   // Get all examples
   app.get("/api/examples", function (req, res) {
@@ -72,6 +73,23 @@ module.exports = function (app) {
   app.post("/api/examples", function (req, res) {
     db.Example.create(req.body).then(function (dbExample) {
       res.json(dbExample);
+    });
+  });
+
+  // Get user
+  app.post("/api/user", function (req, res) {
+    // console.log(`/api/user: req.body.cell = ${req.body.cell}`);
+    db.User.findOrCreate({
+      where: {name: req.body.name, cell: req.body.cell}
+    })
+    .spread(function(userResult, created){
+      // userResult is the user instance
+  
+      if (created) {
+        console.log(`Created new user: ${JSON.stringify(userResult)}`);
+        // created will be true if a new user was created
+      }
+      res.json(userResult);
     });
   });
 

@@ -1,8 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
     name: DataTypes.STRING,
-    cell: DataTypes.INTEGER,
-    location: DataTypes.STRING
+    cell: DataTypes.INTEGER
   });
 
   User.associate = function(models) {

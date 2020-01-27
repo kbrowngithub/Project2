@@ -85,6 +85,15 @@ var API = {
       });
     });
   },
+
+  getUser: function (user) {
+    // console.log(`getUser(): user = ${JSON.stringify(user)}`);
+    return $.ajax({
+      url: "api/user",
+      type: "POST",
+      data: user
+    });
+  },
   saveExample: function (example) {
     return $.ajax({
       headers: {
@@ -154,29 +163,25 @@ var handleFormSubmit = function (event) {
 
   var user = {
     name: $name.val().trim(),
-    cell: $cell.val().trim(),
-    location: $location.val().trim()
-    // location: $locationText.val().trim()
+    cell: $cell.val().trim()
   };
 
-  if (!(user.name && user.cell && user.location)) {
-    alert("You must enter a name, number, and location");
+  if (!(user.name && user.cell)) {
+    alert("You must enter a name and a cell number!");
     return;
   }
 
   console.log(`user = ${JSON.stringify(user)}`);
-  API.saveExample(user).then(function () {
+  API.getUser(user).then(function () {
     refreshExamples();
   });
 
-  API.getMapData(user.location).then(function (data) {
-    // showMapData(JSON.stringify(data[0], null, 2));
-  });
+  // API.getMapData(user.location).then(function (data) {
+  //   // showMapData(JSON.stringify(data[0], null, 2));
+  // });
 
   $name.val("");
   $cell.val("");
-  $location.val("");
-  // $locationText.val("");
 };
 
 // handleDeleteBtnClick is called when an example's delete button is clicked
@@ -193,5 +198,5 @@ var handleDeleteBtnClick = function () {
 
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+// $exampleList.on("click", ".delete", handleDeleteBtnClick);
 
