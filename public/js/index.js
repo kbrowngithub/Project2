@@ -58,6 +58,7 @@ var API = {
   },
   //NATHANIEL's API STUFF
   getTripAdvisor: function (city, paramsArr) {
+    console.log(`getTripAdvisor: location = ${city}`);
     return new Promise(function (resolve, reject) {
       function citySettings(city) {
         return {
@@ -229,12 +230,14 @@ $("#go-to-survey").on("click", function (event) {
   // });
 
   API.getMapData(location).then(function (data) {
-  //     showMapData(JSON.stringify(data[0], null, 2));
+    showMapData(JSON.stringify(data[0], null, 2));
+    console.log(`API.getMapData(location): location = ${location}`);
     $("#location-modal").modal("toggle");
-    window.location.replace("/survey");
+    // window.location.assign("/survey/"+location);
+    window.location.href = "/survey/"+location;
   });
 
-  $location.val("");
+  // $location.val("");
 });
 
 // added by jodi
