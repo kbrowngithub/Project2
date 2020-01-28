@@ -161,10 +161,10 @@ survey.onComplete.add(function (result) {
 
     API.getTripAdvisor("Houston", search)
         .then(function (data) {
-            console.log("NATHANIEL'S APICALL: ", data)
+            console.log("NATHANIEL'S APICALL: ", data);
         }).catch(function (error) {
             console.log(error)
-        })
+        });
 });
 
 $("#surveyElement").Survey({ model: survey });

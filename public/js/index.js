@@ -148,14 +148,6 @@ var showMapData = function (data) {
   $exampleList.append($examples);
 }
 
-var pageTwo = function (name) {
-  $.ajax({
-    url: "/second",
-    type: "GET",
-    data: name
-  });
-}
-
 // refreshExamples gets new examples from the db and repopulates the list
 var refreshExamples = function () {
   API.getExamples().then(function (data) {
@@ -232,13 +224,16 @@ $("#go-to-survey").on("click", function (event) {
 
   console.log(`location = ${JSON.stringify(location)}`);
 
-  API.saveExample(location).then(function () {
-    refreshExamples();
-  });
+  // API.saveExample(location).then(function () {
+  //   refreshExamples();
+  // });
 
   API.getMapData(location).then(function (data) {
   //     showMapData(JSON.stringify(data[0], null, 2));
+    $("#location-modal").modal("toggle");
+    window.location.replace("/survey");
   });
+
   $location.val("");
 });
 
