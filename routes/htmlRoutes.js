@@ -32,15 +32,20 @@ module.exports = function (app) {
     res.render("second");
   });
 
+  // Takes in top 5 restaurants and passes to recommendation modal
+  app.get("/topfive", function (req, res) {
+    console.log(`In app.get(/topfive), req.body = ${JSON.stringify(req.body)}`);
+    res.render("modal name here", req.body);
+  });
+
   // Load survey page
   // Added by KB. This will launch the Survey Handlebars page
   // app.get("/survey/:location", function (req, res) {
-  app.get("/survey/:location", function (req, res) {
-    console.log(`/survey/:location: req.params.location = ${req.params.location}`);
-    // res.render("surveyUsingSurveyJS");
-    res.render("surveyUsingSurveyJS", {
-      location: req.params.location
-    });
+  app.get("/survey", function (req, res) {
+    res.render("surveyUsingSurveyJS");
+    // res.render("surveyUsingSurveyJS", {
+    //   location: req.params.location
+    // });
   });
 
   // KB Sequelize Testing

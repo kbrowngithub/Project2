@@ -9,95 +9,90 @@ var $exampleList = $("#example-list");
 // The API object contains methods for each kind of request we'll make
 var API = {
   // This function added by KB
-  getMapData: function (search) {
-    var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q="
-    // var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=Denver,CO"
-    var queryTerm = '';
-    for (let i = 0; i < search.length; i++) {
-      if (search[i] === ' ') {
-        queryTerm += '+';
-      } else {
-        queryTerm += search[i].toLowerCase();
-      }
-    }
-    //NATHANIEL'S API
-    // this.getTripAdvisor(queryTerm).then(function (data) {
-    //   console.log("NATHANIEL'S APICALL: ", data)
-    // }).catch(function (error) {
-    //   console.log(error)
-    // })
+  // getMapData: function (search) {
+  //   console.log(`getMapData(): search = ${search}`);
+  //   var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q="
+  //   // var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=Denver,CO"
+  //   var queryTerm = '';
+  //   for (let i = 0; i < search.length; i++) {
+  //     if (search[i] === ' ') {
+  //       queryTerm += '+';
+  //     } else {
+  //       queryTerm += search[i].toLowerCase();
+  //     }
+  //   }
 
-    return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
-      type: "GET",
-      url: url + queryTerm,
-      success: function (response) {
-        console.log(JSON.stringify(response[0], null, 2));
-        // TODO: Do we need to test for city value here???
-        // if (response[0].address.city) {
-        //     console.log(JSON.stringify(response));
-        //     var city = response[0].address.city;
-        //     //var postcode = response[0].address.postcode;
-        //     var state = response[0].address.state;
-        //     var lat = response[0].lat;
-        //     var lon = response[0].lon;
-        // } else {
-        //     console.log(response);
-        //     console.log('Incorrect search');
-        // }
+  //   return $.ajax({
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     type: "GET",
+  //     url: url + queryTerm,
+  //     success: function (response) {
+  //       console.log(JSON.stringify(response[0], null, 2));
+  //       // TODO: Do we need to test for city value here???
+  //       // if (response[0].address.city) {
+  //       //     console.log(JSON.stringify(response));
+  //       //     var city = response[0].address.city;
+  //       //     //var postcode = response[0].address.postcode;
+  //       //     var state = response[0].address.state;
+  //       //     var lat = response[0].lat;
+  //       //     var lon = response[0].lon;
+  //       // } else {
+  //       //     console.log(response);
+  //       //     console.log('Incorrect search');
+  //       // }
 
-        // TODO: Do we need a DB push here???
-      },
-      error: function (xhr, ajaxOptions, thrownError) {
-        console.log(xhr.status);
-        console.log(thrownError);
-      }
-    });
-  },
-  //NATHANIEL's API STUFF
-  getTripAdvisor: function (city, paramsArr) {
-    console.log(`getTripAdvisor: location = ${city}`);
-    return new Promise(function (resolve, reject) {
-      function citySettings(city) {
-        return {
-          "async": true,
-          "crossDomain": true,
-          "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
-          "method": "GET",
-          "headers": {
-            "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-            "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
-          }
-        }
-      }
-      function restaurantSettings(lat, lon) {
-        return {
-          "async": true,
-          "crossDomain": true,
-          "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" +paramsArr.join("%252C")+ "&lang=en_US&latitude=" + lat + "&longitude=" + lon,
-          "method": "GET",
-          "headers": {
-            "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-            "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
-          }
-        }
-      }
+  //       // TODO: Do we need a DB push here???
+  //     },
+  //     error: function (xhr, ajaxOptions, thrownError) {
+  //       console.log(xhr.status);
+  //       console.log(thrownError);
+  //     }
+  //   });
+  // },
+  // //NATHANIEL's API STUFF
+  // getTripAdvisor: function (city, paramsArr) {
+  //   console.log(`getTripAdvisor: location = ${city}`);
+  //   return new Promise(function (resolve, reject) {
+  //     function citySettings(city) {
+  //       return {
+  //         "async": true,
+  //         "crossDomain": true,
+  //         "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
+  //         "method": "GET",
+  //         "headers": {
+  //           "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+  //           "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+  //         }
+  //       }
+  //     }
+  //     function restaurantSettings(lat, lon) {
+  //       return {
+  //         "async": true,
+  //         "crossDomain": true,
+  //         "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" +paramsArr.join("%252C")+ "&lang=en_US&latitude=" + lat + "&longitude=" + lon,
+  //         "method": "GET",
+  //         "headers": {
+  //           "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+  //           "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+  //         }
+  //       }
+  //     }
 
-      $.get(citySettings(city))
-        .then(function ({ data }) {
-          const { latitude, longitude } = data[0].result_object;
-          return $.get(restaurantSettings(latitude, longitude))
-        })
-        .then(function ({ data }) {
-          resolve(data);
-        })
-        .catch(function (error) {
-          reject(error)
-        });
-    })
-  },
+  //     $.get(citySettings(city))
+  //       .then(function ({ data }) {
+  //         const { latitude, longitude } = data[0].result_object;
+  //         return $.get(restaurantSettings(latitude, longitude))
+  //       })
+  //       .then(function ({ data }) {
+  //         resolve(data);
+  //       })
+  //       .catch(function (error) {
+  //         reject(error)
+  //       });
+  //   })
+  // },
 
   getUser: function (user) {
     console.log(`getUser(): user = ${JSON.stringify(user)}`);
@@ -216,26 +211,27 @@ $("#open-location-modal").on("click", function (event) {
 $("#go-to-survey").on("click", function (event) {
   event.preventDefault();
 
-  var location = $location.val().trim();
+  // var location = $location.val().trim();
 
-  if (!(location)) {
-    $("#error-message").text("Please enter your location");
-    return;
-  }
+  // if (!(location)) {
+  //   $("#error-message").text("Please enter your location");
+  //   return;
+  // }
 
-  console.log(`location = ${JSON.stringify(location)}`);
+  // console.log(`location = ${JSON.stringify(location)}`);
 
   // API.saveExample(location).then(function () {
   //   refreshExamples();
   // });
 
-  API.getMapData(location).then(function (data) {
-    showMapData(JSON.stringify(data[0], null, 2));
-    console.log(`API.getMapData(location): location = ${location}`);
-    $("#location-modal").modal("toggle");
-    // window.location.assign("/survey/"+location);
-    window.location.href = "/survey/"+location;
-  });
+  // API.getMapData(location).then(function (data) {
+  //   showMapData(JSON.stringify(data[0], null, 2));
+  //   console.log(`API.getMapData(location): location = ${location}`);
+  //   $("#location-modal").modal("toggle");
+  //   window.location.assign("/survey/"+location);
+  // });
+
+  window.location.href = "/survey";
 
   // $location.val("");
 });

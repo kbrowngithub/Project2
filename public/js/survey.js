@@ -99,65 +99,73 @@ var json = {
 
 window.survey = new Survey.Model(json);
 
+var loc = "80919"; // For testing only, needs to be populated from question block above
 survey.onComplete.add(function (result) {
+    
+    var search;
+
+    if(result.data.q1 >= 3){
+        result.data.q1 = 'spicy';
+    }
+    if(result.data.q2 >= 3){
+        result.data.q2 = 'vegan';
+    }
+    if(result.data.q3 >= 3){
+        result.data.q3 = 'fast%20foo';
+    }
+    if(result.data.q4 >= 3){
+        result.data.q4 = 'sea%20food';
+    }
+    if(result.data.q5 >= 3){
+        result.data.q5 = 'family%20style';
+    }
+    if(result.data.q6 >= 3){
+        result.data.q6 = 'gluten%20free';
+    }
+    if(result.data.q7 >= 3){
+        result.data.q7 = 'sandwiches';
+    }
+    if(result.data.q8 >= 3){
+        result.data.q8 = 'salads';
+    }
+    if(result.data.q9 >= 3){
+        result.data.q9 = 'buffet';
+    }
+    if(result.data.q10 >= 3){
+        result.data.q10 = 'apatizers';
+    }
+
+    var scores = [
+        result.data.q1,
+        result.data.q2,
+        result.data.q3,
+        result.data.q4,
+        result.data.q5,
+        result.data.q6,
+        result.data.q7,
+        result.data.q8,
+        result.data.q9,
+        result.data.q10
+    ];
+    
     var userData = {
-        scores: [
-            result.data.q1,
-            result.data.q2,
-            result.data.q3,
-            result.data.q4,
-            result.data.q5,
-            result.data.q6,
-            result.data.q7,
-            result.data.q8,
-            result.data.q9,
-            result.data.q10
-        ]
+        loc: loc,
+        scores: scores.join("%252C")
     };
 
-
+    console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
     $.post("/api/restaurants", userData, function (data) {
         console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
 
         // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-        console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
-        $('#rname').text(data.name);
-        $('#raddress').text(data.address);
-        $('#rphone').text(data.phone);
+        // console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
+        // $('#rname').text(data.name);
+        // $('#raddress').text(data.address);
+        // $('#rphone').text(data.phone);
+
     });
 
-    var search = []
-    console.log(userData)
-    if(result.data.q1 >= 3){
-        search.push('spicy')
-    }
-    if(result.data.q2 >= 3){
-        search.push('vegan')
-    }
-    if(result.data.q3 >= 3){
-        search.push('fast%20food')
-    }
-    if(result.data.q4 >= 3){
-        search.push('sea%20food')
-    }
-    if(result.data.q5 >= 3){
-        search.push('family%20style')
-    }
-    if(result.data.q6 >= 3){
-        search.push('gluten%20free')
-    }
-    if(result.data.q7 >= 3){
-        search.push('sandwiches')
-    }
-    if(result.data.q8 >= 3){
-        search.push('salads')
-    }
-    if(result.data.q9 >= 3){
-        search.push('buffet')
-    }
-    if(result.data.q10 >= 3){
-        search.push('apatizers')
-    }
+    
 
     // API.getTripAdvisor(location, search)
     //     .then(function (data) {
