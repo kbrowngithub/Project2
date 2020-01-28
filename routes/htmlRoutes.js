@@ -27,15 +27,20 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/second", function (req, res) {
+    console.log(`In app.get(/second), req.params.name = ${JSON.stringify(req.params.name)}`);
+    res.render("second");
+  });
+
   // Load survey page
   // Added by KB. This will launch the Survey Handlebars page
-  app.get("/survey", function (req, res) {
-    res.render("surveyUsingSurveyJS");
-    // res.render("datatest", {
-    //   msg: "Data Test Page!",
-    //   examples: dbExamples
-    // });
-
+  // app.get("/survey/:location", function (req, res) {
+  app.get("/survey/:location", function (req, res) {
+    console.log(`/survey/:location: req.params.location = ${req.params.location}`);
+    // res.render("surveyUsingSurveyJS");
+    res.render("surveyUsingSurveyJS", {
+      location: req.params.location
+    });
   });
 
   // KB Sequelize Testing

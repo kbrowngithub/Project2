@@ -159,12 +159,12 @@ survey.onComplete.add(function (result) {
         search.push('apatizers')
     }
 
-    API.getTripAdvisor("Houston", search)
-        .then(function (data) {
-            console.log("NATHANIEL'S APICALL: ", data);
-        }).catch(function (error) {
-            console.log(error)
-        });
+    // API.getTripAdvisor(location, search)
+    //     .then(function (data) {
+    //         console.log("NATHANIEL'S APICALL: ", data);
+    //     }).catch(function (error) {
+    //         console.log(error)
+    //     });
 });
 
 $("#surveyElement").Survey({ model: survey });
