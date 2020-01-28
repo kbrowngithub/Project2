@@ -196,7 +196,7 @@ var handleFormSubmit = function (event) {
 
   API.getUser(user).then(function(data) {
     console.log(`data = ${JSON.stringify(data[0])}`);
-    // refreshExamples();
+    console.log(`name = ${data[0].name}`);
     location.replace("/second/" + data[0].name);
   });
 };
