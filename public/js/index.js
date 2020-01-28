@@ -97,6 +97,25 @@ var API = {
         });
     })
   },
+
+  getUser: function (user) {
+    console.log(`getUser(): user = ${JSON.stringify(user)}`);
+    return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
+      url: "api/user",
+      type: "POST",
+      data: JSON.stringify(user)
+    });
+  },
+  showUser: function (name) {
+    console.log(`In showUser() name = ${name}`);
+    return $.ajax({
+      url: "/second/"+name,
+      type: "GET"
+    });
+  },
   saveExample: function (example) {
     return $.ajax({
       headers: {
@@ -159,7 +178,6 @@ var refreshExamples = function () {
   });
 };
 
-
 // handle form submit user info with onclick and redirects to second page
 var handleFormSubmit = function (event) {
   event.preventDefault();
@@ -175,18 +193,11 @@ var handleFormSubmit = function (event) {
     return;
   };
 
-  console.log(`user = ${JSON.stringify(user)}`);
-
-  API.saveExample(user).then(function () {
-    refreshExamples();
+  API.getUser(user).then(function(data) {
+    console.log(`data = ${JSON.stringify(data[0])}`);
+    // refreshExamples();
+    location.replace("/second/" + data[0].name);
   });
-
-  API.getMapData(user).then(function (data) {
-  //   // showMapData(JSON.stringify(data[0], null, 2));
- });
-
-  $name.val("");
-  $cell.val("");
 };
 
 // added by jodi
@@ -213,13 +224,16 @@ $("#go-to-survey").on("click", function (event) {
 
   console.log(`location = ${JSON.stringify(location)}`);
 
-  API.saveExample(location).then(function () {
-    refreshExamples();
-  });
+  // API.saveExample(location).then(function () {
+  //   refreshExamples();
+  // });
 
   API.getMapData(location).then(function (data) {
   //     showMapData(JSON.stringify(data[0], null, 2));
+    $("#location-modal").modal("toggle");
+    window.location.replace("/survey");
   });
+
   $location.val("");
 });
 
@@ -245,4 +259,5 @@ var handleDeleteBtnClick = function () {
 };
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+// $exampleList.on("click", ".delete", handleDeleteBtnClick);
+

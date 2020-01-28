@@ -21,7 +21,7 @@ module.exports = function (app) {
   });
 
   // KB Sequelize Testing
-  app.get("/api/:table", function (req, res) {
+  app.get("/api/tables/:table", function (req, res) {
     console.log(`apiRoutes.js: req.params.table = ${req.params.table}`);
     switch (req.params.table) {
       // This case was just for loading initial test entries into the db tables
@@ -60,6 +60,7 @@ module.exports = function (app) {
     }
   });
 
+  
 
   // Get all examples
   app.get("/api/examples", function (req, res) {
@@ -73,6 +74,17 @@ module.exports = function (app) {
     db.Example.create(req.body).then(function (dbExample) {
       res.json(dbExample);
     });
+  });
+
+  // Get user
+  app.post("/api/user", function (req, res) {
+    console.log(`/api/user: req.body = ${JSON.stringify(req.body)}`);
+    db.User.findOrCreate({
+      where: {name: req.body.name, cell: req.body.cell}
+    }).then(function(userData) {
+      res.json(userData);
+    });
+    
   });
 
   // Delete an example by id

@@ -20,9 +20,10 @@ module.exports = function (app) {
 
   // Load Second Page
   // this will launch the second.handlebars page
-  app.get("/second", function (req, res) {
+  app.get("/second/:name", function (req, res) {
+    console.log(`In app.get(/second), req.params.name = ${JSON.stringify(req.params.name)}`);
     res.render("second", {
-      name: {}
+      name: req.params.name
       });
   });
 
@@ -38,7 +39,7 @@ module.exports = function (app) {
   });
 
   // KB Sequelize Testing
-  app.get("/api/:table", function (req, res) {
+  app.get("/api/tables/:table", function (req, res) {
     
     console.log(`htmlRoutes.js: req.params.table = ${req.params.table}`);
     switch (req.params.table) {
