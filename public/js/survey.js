@@ -3,7 +3,7 @@ Survey
     .applyTheme("modern");
 
 var json = {
-    "completedHtml": "<h3>Restaurant Recommendations</h3>",
+    // "completedHtml": "<h3>Restaurant Recommendations</h3>",
     "completedHtmlOnCondition": [
         {
             "expression": "{nps_score} > 5",
@@ -31,7 +31,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q2",
-            title: "You tend to appreciate vegan options on a menu.",
+            title: "You appreciate vegan options on a menu.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -39,7 +39,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q3",
-            title: "You're in a hurry.",
+            title: "You are in a hurry.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -63,7 +63,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q6",
-            title: "you need gluten free options.",
+            title: "You need gluten free options.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -71,7 +71,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q7",
-            title: "sandwiches sound amazing.",
+            title: "Sandwiches sound amazing.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -79,7 +79,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q8",
-            title: "Your in the mood for a great salad.",
+            title: "You are in the mood for a great salad.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -87,7 +87,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q9",
-            title: "you would love a buffet.",
+            title: "You would love a buffet.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         },
@@ -95,7 +95,7 @@ var json = {
             type: "rating",
             isRequired: true,
             name: "q10",
-            title: "you need a good apatizer.",
+            title: "You need a good appetizer.",
             minRateDescription: "1 (Strongly Disagree)",
             maxRateDescription: "5 (Strongly Agree)"
         }
@@ -106,37 +106,37 @@ window.survey = new Survey.Model(json);
 
 var loc = "80919"; // For testing only, needs to be populated from question block above
 survey.onComplete.add(function (result) {
-    
+
     var search;
 
-    if(result.data.q1 >= 3){
+    if (result.data.q1 >= 3) {
         result.data.q1 = 'spicy';
     }
-    if(result.data.q2 >= 3){
+    if (result.data.q2 >= 3) {
         result.data.q2 = 'vegan';
     }
-    if(result.data.q3 >= 3){
+    if (result.data.q3 >= 3) {
         result.data.q3 = 'fast%20foo';
     }
-    if(result.data.q4 >= 3){
+    if (result.data.q4 >= 3) {
         result.data.q4 = 'sea%20food';
     }
-    if(result.data.q5 >= 3){
+    if (result.data.q5 >= 3) {
         result.data.q5 = 'family%20style';
     }
-    if(result.data.q6 >= 3){
+    if (result.data.q6 >= 3) {
         result.data.q6 = 'gluten%20free';
     }
-    if(result.data.q7 >= 3){
+    if (result.data.q7 >= 3) {
         result.data.q7 = 'sandwiches';
     }
-    if(result.data.q8 >= 3){
+    if (result.data.q8 >= 3) {
         result.data.q8 = 'salads';
     }
-    if(result.data.q9 >= 3){
+    if (result.data.q9 >= 3) {
         result.data.q9 = 'buffet';
     }
-    if(result.data.q10 >= 3){
+    if (result.data.q10 >= 3) {
         result.data.q10 = 'apatizers';
     }
 
@@ -153,7 +153,7 @@ survey.onComplete.add(function (result) {
         result.data.q9,
         result.data.q10
     ];
-    
+
     var userData = {
         loc: loc,
         scores: scores.join("%252C")
@@ -171,7 +171,35 @@ survey.onComplete.add(function (result) {
 
     });
 
-    
+    // added by jodi
+    // on click function to open survey results modal
+    $(document).on("click", ".sv-btn", function (event) {
+        event.preventDefault();
+
+        $("#results-modal").modal("toggle");
+
+        //hides surveyJS results page
+        $(".sv-completedpage").hide();
+    });
+
+    // exit button on survey will take user to home page
+    $("#survey-exit-btn").on("click", function (event) {
+        event.preventDefault();
+
+        window.location.replace("/");
+    });
+
+    // added by jodi
+    // save button on results modal will capture user's selected restaurant, save to DB, and return user to user landing page
+    $(document).on("click", "#survey-save-btn", function (event) {
+        event.preventDefault();
+
+        $.post("/api/save-restaurant", {
+            restaurantName: $("input:checked").val()
+        }).then(function (response) {
+            window.location.replace(response);
+        });
+    });
 
     // API.getTripAdvisor(location, search)
     //     .then(function (data) {

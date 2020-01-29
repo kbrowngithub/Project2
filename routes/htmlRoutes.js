@@ -24,7 +24,7 @@ module.exports = function (app) {
     console.log(`In app.get(/second), req.params.name = ${JSON.stringify(req.params.name)}`);
     res.render("second", {
       name: req.params.name
-      });
+    });
   });
 
   app.get("/second", function (req, res) {
@@ -35,7 +35,7 @@ module.exports = function (app) {
   // Takes in top 5 restaurants and passes to recommendation modal
   app.get("/topfive", function (req, res) {
     console.log(`In app.get(/topfive), req.body = ${JSON.stringify(req.body)}`);
-    res.render("modal name here", req.body);
+    res.render("results-modal", req.body);
   });
 
   // Load survey page
@@ -65,15 +65,17 @@ module.exports = function (app) {
       var lon = response.data[0].lon;
 
       // Trip Advisor call
-      const options = { 
-        headers: {"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-                  "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"} 
+      const options = {
+        headers: {
+          "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+        }
       };
       var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=3&currency=USD&distance=2&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
       console.log(`TripAdvisor url = ${url}`);
       axios.get(url, options).then(function (response) {
         console.log(`TA: axios response = ${JSON.stringify(response.data.data, null, 3)}`);
-        res.render("surveyUsingSurveyJS",{restaurant:response.data.data});
+        res.render("surveyUsingSurveyJS", { restaurant: response.data.data });
       }).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -111,7 +113,7 @@ module.exports = function (app) {
       console.log(error.config);
     });
 
-    
+
 
     // res.render("surveyUsingSurveyJS", {
     //   location: req.params.location
@@ -120,7 +122,7 @@ module.exports = function (app) {
 
   // KB Sequelize Testing
   app.get("/api/tables/:table", function (req, res) {
-    
+
     console.log(`htmlRoutes.js: req.params.table = ${req.params.table}`);
     switch (req.params.table) {
       case "users":

@@ -135,6 +135,14 @@ module.exports = function (app) {
     }
   });
 
+  // added by jodi
+  // created SavedRestaurants table and populating with saved restaurantName 
+  app.post("/api/save-restaurant", function (req, res) {
+    db.SavedRestaurants.create({ name: req.body.restaurantName }).then(function () {
+      res.json("/second");
+    });
+  });
+
 
 
   // Get all examples

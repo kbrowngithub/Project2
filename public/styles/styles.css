@@ -10,8 +10,10 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  font-family: 'Bebas Neue', cursive;
-  color: rgb(255, 255, 255);
+  /* font-family: 'Bebas Neue', cursive; */
+  font-family: Raleway;
+  /* color: rgb(255, 255, 255); */
+  color: rgb(63, 63, 63);
 }
 
 .header {
@@ -23,6 +25,10 @@
   font-size: 1.3rem;
 }
 
+.entr-name {
+  font-size: 1.4rem;
+}
+
 .user-info-form {
   width: 30rem;
   display: block;
@@ -32,7 +38,8 @@
 }
 
 .first-container {
-  background: rgba(119, 119, 119, 0.7);
+  /* background: rgba(179, 179, 179, 0.7); */
+  background: rgba(255, 255, 255, 0.7);
   margin-top: 8rem;
   width: 51rem;
   border-radius: 1.5rem;
@@ -48,7 +55,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  font-family: 'Bebas Neue', cursive;
+  font-family: Raleway;
 }
 
 .users-name {
@@ -56,8 +63,10 @@
 }
 
 .second-container {
-  background: rgba(119, 119, 119, 0.7);
-  color: rgb(255, 255, 255);
+  /* background: rgba(179, 179, 179, 0.7); */
+  background: rgba(255, 255, 255, 0.7);
+  /* color: rgb(255, 255, 255); */
+  color: rgb(63, 63, 63);
   margin-top: 10rem;
   width: 52rem;
   padding-bottom: 3.5rem;
@@ -66,11 +75,31 @@
   padding-right: 1.5rem;
 }
 
-#open-location-modal {
-  margin-right: 1rem;
+#go-to-survey {
+  margin-right: 0.5rem;
 }
 
+/* survey results modal */
 .modal-content {
   background: rgb(255, 255, 255);
   color: rgb(63, 63, 63);
+  font-family: Raleway;
+}
+
+.survey-body {
+  background-image: url(../images/yum.jpeg);
+  background-size: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#surveyElement {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 1.5rem;
+}
+
+.sv-btn {
+  background-color: rgba(119, 119, 119, 0.7);
 }

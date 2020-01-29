@@ -1,10 +1,6 @@
 <body class="second-body">
   <div class="container second-container">
-    {{!-- <div class="row">
-      <div class="col-8 offset-2"> --}}
     <br>
-    {{!-- <div class="card mt-4">
-          <div class="card-body"> --}}
     <div class="welcome-user">
       {{#if user}}
       <h4 class="users-name">Hi {{name}}! Welcome back!</h4>
@@ -31,44 +27,11 @@
 
     <br>
     {{!-- button takes user to home page --}}
-    <a href="/" class="btn btn-outline-light float-right exit">Exit</a>
+    <a href="/" class="btn btn-outline-dark float-right exit">Exit</a>
 
-    {{!-- button trigger modal --}}
-    <button id="open-location-modal" type="button" class="btn btn-outline-light float-right" data-toggle="modal"
-      data-target="#location-modal">Restaurant Finder Survey</button>
+    {{!-- button takes user to survey page --}}
+    <button id="go-to-survey" type="button" class="btn btn-outline-dark float-right">Restaurant Finder Survey</button>
 
-    {{!-- Location Modal --}}
-    <div class="modal fade" id="location-modal" tabindex="-1" role="dialog" aria-labelledby="location-modal-title"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="location-modal-title">Enter Current Location</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="location">City or ZIP</label>
-              <input type="text" id="location" class="form-control" aria-describedby="location"
-                placeholder="e.g 80238 OR Denver, CO">
-            </div>
-            <p id="error-message"></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
-            {{!-- button within modal takes user to survey --}}
-            <button type="button" id="go-to-survey" class="btn btn-outline-dark float-right take-survey">Go to
-              Survey</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{!-- </div>
-        </div> --}}
-    {{!-- </div>
-    </div> --}}
   </div>
 
 </body>
