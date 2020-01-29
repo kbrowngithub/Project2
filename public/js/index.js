@@ -108,7 +108,7 @@ var API = {
   showUser: function (name) {
     console.log(`In showUser() name = ${name}`);
     return $.ajax({
-      url: "/second/"+name,
+      url: "/second/" + name,
       type: "GET"
     });
   },
@@ -197,52 +197,11 @@ var handleFormSubmit = function (event) {
 };
 
 // added by jodi
-// on click function to open modal for users location
-$("#open-location-modal").on("click", function (event) {
-  event.preventDefault();
-
-  // Show the modal to take in users location
-  $("#location-modal").modal("toggle");
-});
-
-
-// added by jodi
-// on click function to log location data and take user to survey page
+// on click function to take user to survey page
 $("#go-to-survey").on("click", function (event) {
   event.preventDefault();
 
-  // var location = $location.val().trim();
-
-  // if (!(location)) {
-  //   $("#error-message").text("Please enter your location");
-  //   return;
-  // }
-
-  // console.log(`location = ${JSON.stringify(location)}`);
-
-  // API.saveExample(location).then(function () {
-  //   refreshExamples();
-  // });
-
-  // API.getMapData(location).then(function (data) {
-  //   showMapData(JSON.stringify(data[0], null, 2));
-  //   console.log(`API.getMapData(location): location = ${location}`);
-  //   $("#location-modal").modal("toggle");
-  //   window.location.assign("/survey/"+location);
-  // });
-
   window.location.href = "/survey";
-
-  // $location.val("");
-});
-
-// added by jodi
-// on click function to open survey results modal
-$("#survey-submit").on("click", function (event) {
-  event.preventDefault();
-
-  // Show the modal to take in users location
-  $("#results-modal").modal("toggle");
 });
 
 // handleDeleteBtnClick is called when an example's delete button is clicked

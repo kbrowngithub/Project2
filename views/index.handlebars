@@ -3,14 +3,14 @@
   <div class="container first-container">
     <h1 class="header text-center">Restaurant Finder</h1>
 
-    <p class="sub-header text-center">This app will make finding and deciding on where to eat an easy breezy experience.
+    <p class="sub-header text-center">Making deciding where to eat a piece of cake.
     </p>
     <p class="sub-header text-center">Our survey will take in your dietary restrictions, cravings, favorites and more,
       to help us find a just right restaurant for you.</p>
     <br>
 
     <div class="user-info-form">
-      <h4>Enter your Name and Number to get started</h4>
+      <h4 class="entr-name">Enter your Name and Number to get started</h4>
 
       <form class="clearfix mb-4" action="POST">
         <div class="form-group">
@@ -26,14 +26,14 @@
         <div id="first-error-message"></div>
 
         <div>
-          <button id="submit" type="button" class="btn btn-outline-light float-right">Submit</button>
+          <button id="submit" type="button" class="btn btn-outline-dark float-right">Submit</button>
         </div>
       </form>
       {{!-- <h3>Response Data:</h3>
         <ul id="example-list" class="list-group">
-          {{#each examples}}
-          <li data-id="{{this.id}}" class="list-group-item">
-            <a href="example/{{this.id}}">{{this.text}}: {{this.description}}</a>
+          {{#each restaurants}}
+          <li data-id="{{this.restaurant-name}}" class="list-group-item">
+            <a href="example/{{this.id}}">{{this.text}}: {{this.description}}</a> radio button
             <button class="btn btn-danger float-right delete">ｘ</button>
           </li>
           {{/each}}

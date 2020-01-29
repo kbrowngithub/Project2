@@ -1,54 +1,47 @@
-<body>
-<div class="container">
-    <!-- <h1>Test Page</h1> -->
-    <div id="surveyElement"></div>
-    {{!-- <div id="surveyResult"></div> --}}
-    <div>
-        <ul>
-            <li id="rname"></li>
-            <li id="raddress"></li>
-            <li id="rphone"></li>
-        </ul>
-    </div>
+<body class="survey-body">
+    <br>
+    <br>
+    <br>
+    <div class="container survey-container">
 
+        {{!-- SurveyJS content --}}
+        <div id="surveyElement"></div>
 
-    {{!-- Open results modal --}}
-    <button type="button" id="survery-submit" class="btn btn-primary" data-toggle="modal" data-target="#results-modal">
-        Submit
-    </button>
-
-    {{!-- Results Modal --}}
-    <div class="modal fade" id="results-modal" tabindex="-1" role="dialog" aria-labelledby="results-modal-title"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="results-modal-title">Suggested Restaurants:</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{!-- Suggested Restaurants will go here --}}
-                    <div class="suggested-restaurants">BEST ONE EVER
-                        {{!-- radio button --}}
-                        <input class="form-check-input position-static float-right" type="radio" name="blankRadio"
-                            id="blankRadio1" value="option1" aria-label="...">
+        {{!-- Results Modal --}}
+        <div class="modal fade" id="results-modal" tabindex="-1" role="dialog" aria-labelledby="results-modal-title"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="results-modal-title">Suggested Restaurants:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="reset-btn" class="btn btn-secondary" data-dismiss="modal">Retake
-                        Survey</button>
-                    <a href="/second"><button type="button" class="btn btn-primary">Save</button></a>
+                    <div class="modal-body">
+                        {{!-- Suggested Restaurants within results modal --}}
+                        <div class="suggested-restaurants">
+                            {{#each restaurant}}
+                            <p class="restaurant-names">{{name}}<input
+                                    class="form-check-input position-static float-right" type="radio" name="blankRadio"
+                                    value="{{name}}" aria-label="..."></p>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="survey-exit-btn" class="btn btn-outline-dark">Exit</button>
+                        <button id="survey-save-btn" type="button" class="btn btn-outline-dark">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {{!-- display for survey --}}
-{{#each restaurant}} <p>{{name}}</p>{{/each}}
-</div>
+
+    <br>
+    <br>
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://surveyjs.azureedge.net/1.1.31/survey.jquery.js"></script>
+<link href="https://surveyjs.azureedge.net/1.5.1/modern.css" type="text/css" rel="stylesheet" />
 <script src="/js/survey.js"></script>
