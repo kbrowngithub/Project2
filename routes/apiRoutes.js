@@ -40,7 +40,7 @@ module.exports = function (app) {
       };
       var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
       console.log(`TripAdvisor url = ${url}`);
-      axios.get(url + queryTerm, options).then(function (response) {
+      axios.get(url, options).then(function (response) {
         console.log(`TA: axios response = ${JSON.stringify(response.data, null, 3)}`);
       }).catch(function (error) {
         if (error.response) {

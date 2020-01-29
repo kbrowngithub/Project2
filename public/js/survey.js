@@ -15,6 +15,11 @@ var json = {
     ],
     questions: [
         {
+            type: "text",
+            name: "City",
+            title: "Enter Your Location: City, State or Zip:"
+        },
+        {
             type: "rating",
             isRequired: true,
             name: "q1",
@@ -136,6 +141,7 @@ survey.onComplete.add(function (result) {
     }
 
     var scores = [
+        result.data.City,
         result.data.q1,
         result.data.q2,
         result.data.q3,
