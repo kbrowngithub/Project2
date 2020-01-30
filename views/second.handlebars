@@ -14,12 +14,18 @@
     <div class="saved-restaurants">
       {{#if returning_user}}
       <h6>Previously Visited Restaurants:</h6>
-      <ul class="list-group">
-        {{!-- fillers for example layout --}}
-        <li class="list-group-item d-flex justify-content-between align-items-center">El Pueblito
+      {{!-- <ul class="list-group"> --}}
+      {{!-- fillers for example layout --}}
+      {{!-- <li class="list-group-item d-flex justify-content-between align-items-center">El Pueblito
           <span class="rate-emojis">&#129314 &#128533 &#128528 &#128522 &#129316</span>
         </li>
-      </ul>
+      </ul> --}}
+      <div class="suggested-restaurants">
+        {{#each restaurant}}
+        <p class="restaurant-names">{{name}}<input class="form-check-input position-static float-right" type="radio"
+            name="blankRadio" value="{{name}}" aria-label="..."></p>
+        {{/each}}
+      </div>
     </div>
     {{else}}
     <h6>You have no saved restaurants.</h6>

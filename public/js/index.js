@@ -108,7 +108,7 @@ var API = {
   showUser: function (name) {
     console.log(`In showUser() name = ${name}`);
     return $.ajax({
-      url: "/second/" + name,
+      url: "/second",
       type: "GET"
     });
   },
@@ -192,8 +192,12 @@ var handleFormSubmit = function (event) {
   API.getUser(user).then(function(data) {
     console.log(`data = ${JSON.stringify(data[0])}`);
     console.log(`name = ${data[0].name}`);
-    location.replace("/second/" + data[0].name);
+    sessionStorage.setItem("userID", data[0].id);
+    console.log(`userID = ${sessionStorage.getItem("userID")}`);
+    location.replace("/second/"+user.cell);
   });
+  
+
 };
 
 // added by jodi
