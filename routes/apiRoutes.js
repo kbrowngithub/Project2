@@ -8,75 +8,80 @@ module.exports = function (app) {
     //   res.json(dbExamples);
     // });
     console.log(`/api/restaurants: req.body = ${JSON.stringify(req.body)}`);
-    // console.log(`/api/restaurants: req.body.loc = ${req.body.loc}`);
-    // console.log(`/api/restaurants: req.body.scores = ${req.body.scores}`);
-    //req.body.loc and req.body.search (array)
-    // //MOVE THIS TO HTML
-    //     // MapDataApi call (req.body.loc)
-    //     var search = req.body.loc;
-    //     var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=";
-    //     var queryTerm = '';
-    //     for (let i = 0; i < search.length; i++) {
-    //       if (search[i] === ' ') {
-    //         queryTerm += '+';
-    //       } else {
-    //         queryTerm += search[i].toLowerCase();
-    //       }
-    //     }
+    console.log(`/api/restaurants: req.body.loc = ${req.body.loc}`);
+    console.log(`/api/restaurants: req.body.scores = ${req.body.scores}`);
+    // req.body.loc and req.body.search (array)
+    //MOVE THIS TO HTML
+        // MapDataApi call (req.body.loc)
+        var search = req.body.loc;
+        var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=";
+        var queryTerm = '';
+        for (let i = 0; i < search.length; i++) {
+          if (search[i] === ' ') {
+            queryTerm += '+';
+          } else {
+            queryTerm += search[i].toLowerCase();
+          }
+        }
 
-    //     // Call the Open Street Maps API for location then call the TripAdvisor API passing in the
-    //     // lat/lon from the Open Street Maps results
+        // Call the Open Street Maps API for location then call the TripAdvisor API passing in the
+        // lat/lon from the Open Street Maps results
 
-    //     // Open Street Maps call
-    //     axios.get(url + queryTerm).then(function (response) {
-    //       console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
-    //       var lat = response.data[0].lat;
-    //       var lon = response.data[0].lon;
+        // Open Street Maps call
+        axios.get(url + queryTerm).then(function (response) {
+          console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
+          var lat = response.data[0].lat;
+          var lon = response.data[0].lon;
 
-    //       // Trip Advisor call
-    //       const options = { 
-    //         headers: {"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-    //                   "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"} 
-    //       };
-    //       var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
-    //       console.log(`TripAdvisor url = ${url}`);
-    //       axios.get(url, options).then(function (response) {
-    //         console.log(`TA: axios response = ${JSON.stringify(response.data, null, 3)}`);
-    //       }).catch(function (error) {
-    //         if (error.response) {
-    //           // The request was made and the server responded with a status code
-    //           // that falls out of the range of 2xx
-    //           console.log(error.response.data);
-    //           console.log(error.response.status);
-    //           console.log(error.response.headers);
-    //         } else if (error.request) {
-    //           // The request was made but no response was received
-    //           // `error.request` is an object that comes back with details pertaining to the error that occurred.
-    //           console.log(error.request);
-    //         } else {
-    //           // Something happened in setting up the request that triggered an Error
-    //           console.log("Error", error.message);
-    //         }
-    //         console.log(error.config);
-    //       });
+          // Trip Advisor call
+          const options = { 
+            headers: {"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+                      "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"} 
+          };
+          var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
+          console.log(`TripAdvisor url = ${url}`);
+          axios.get(url, options).then(function (response) {
+            console.log(`TA: axios response = ${JSON.stringify(response.data, null, 3)}`);
+            if(response.data === null) {
+              res.json(404, "No Data Found");
+            } else {
+              res.json(response.data);
+            }
+          }).catch(function (error) {
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an object that comes back with details pertaining to the error that occurred.
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log("Error", error.message);
+            }
+            console.log(error.config);
+          });
 
-    //     }).catch(function (error) {
-    //       if (error.response) {
-    //         // The request was made and the server responded with a status code
-    //         // that falls out of the range of 2xx
-    //         console.log(error.response.data);
-    //         console.log(error.response.status);
-    //         console.log(error.response.headers);
-    //       } else if (error.request) {
-    //         // The request was made but no response was received
-    //         // `error.request` is an object that comes back with details pertaining to the error that occurred.
-    //         console.log(error.request);
-    //       } else {
-    //         // Something happened in setting up the request that triggered an Error
-    //         console.log("Error", error.message);
-    //       }
-    //       console.log(error.config);
-    //     });
+        }).catch(function (error) {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an object that comes back with details pertaining to the error that occurred.
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
 
     //END
 
@@ -177,7 +182,7 @@ module.exports = function (app) {
     }).then(function (userData) {
       if (userData) {
         console.log(`userData = ${JSON.stringify(userData)}`);
-        if(userData[0].SavedRestaurants) {
+        if(userData[0].SavedRestaurants[0] !== undefined) {
         console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
         console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
         console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
