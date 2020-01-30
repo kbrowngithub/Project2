@@ -103,11 +103,11 @@ var json = {
 };
 
 window.survey = new Survey.Model(json);
+// var loc = "80919"; // For testing only, needs to be populated from question block above
 
-var loc = "80919"; // For testing only, needs to be populated from question block above
 survey.onComplete.add(function (result) {
 
-    var search;
+    var loc = result.data.City;
 
     if (result.data.q1 >= 3) {
         result.data.q1 = 'spicy';
@@ -141,7 +141,6 @@ survey.onComplete.add(function (result) {
     }
 
     var scores = [
-        result.data.City,
         result.data.q1,
         result.data.q2,
         result.data.q3,
