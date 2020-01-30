@@ -100,6 +100,38 @@
   border-radius: 1.5rem;
 }
 
-.sv-btn {
-  background-color: rgba(119, 119, 119, 0.7);
+/* saved restaurants list styling */
+.emojiclicked {
+  background-color: rgba(207, 207, 207, 0.7);
+  padding: 7px;
+  border-radius: .5rem;
 }
+
+.rate-emojis {
+  font-size: 1.4rem;
+  margin-left: 5px;
+}
+
+#one {
+  margin-left: 7rem;
+}
+
+ .list-group-item {
+   font-size: 16px;
+   width: 32rem;
+   border-radius: .5rem;
+   padding-top: .3px;
+   padding-bottom: .3px;
+ }
+
+ .visited {
+   font-size: 20px;
+ }
+
+ .not-saved {
+   font-size: 20px;
+ }
+
+ .modal {
+   margin-top: 10rem;
+ }
