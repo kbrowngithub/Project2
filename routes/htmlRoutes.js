@@ -35,32 +35,34 @@ module.exports = function (app) {
       },
       include: [db.SavedRestaurants]
     }).then(function (userData) {
-      var returning_user = false;
-      if(userData.affectedRows > 0) {
-        returning_user = true;
-      }
+      var returning_user = userData[0].name;
+
       console.log(`userData = ${JSON.stringify(userData)}`);
-      if (userData[0].SavedRestaurants === null) {
-        console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
-        console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
-        console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
-        var restaurant = [
-          { name: userData[0].SavedRestaurants[0].name },
-          { name: userData[0].SavedRestaurants[1].name },
-          { name: userData[0].SavedRestaurants[2].name }
-        ];
-        res.render("second", {
-          name: userData[0].name,
-          returning_user: returning_user,
-          // restaurant: userData[0].SavedRestaurants
-          restaurant: restaurant
-        });
-      } else {
-        console.log(`No saved restaurants for this user`);
-        res.render("second", {
-          name: userData[0].name
-        });
+      var restaurant = [];
+      var r = userData[0].SavedRestaurants;
+      for(var i = 0; i < r.length; i++) {
+        console.log(`restaurant name = ${JSON.stringify(userData[0].SavedRestaurants[i].name)}`);
+        restaurant.push({name: userData[0].SavedRestaurants[i].name});
+        console.log(`restaurant[${i}] = ${restaurant[i].name}`);
       }
+      var uData = {
+        name: userData[0].name,
+        returning_user: returning_user,
+        restaurant: restaurant
+      };
+
+      // if (userData[0].SavedRestaurants !== null) {
+        // console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
+        // console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
+        // console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
+        console.log(`render second page with uData =  ${JSON.stringify(uData)} and returning_user = ${returning_user}`);
+        res.render("second", uData);
+      // } else {
+        // console.log(`No saved restaurants for this user`);
+        // res.render("second", {
+        //   name: userData[0].name
+        // });
+      // }
     });
   });
 

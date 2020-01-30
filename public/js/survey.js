@@ -200,7 +200,10 @@ survey.onComplete.add(function (result) {
         event.preventDefault();
 
         $.post("/api/save-restaurant", {
-            restaurantName: $("input:checked").val()
+            // restaurantName: $("input:checked").val()
+            restaurantName: "Name 1",
+            restaurantAddr: "Addr 1",
+            restaurantPhone: "Phone 1"
         }).then(function (response) {
             window.location.replace(response);
         });

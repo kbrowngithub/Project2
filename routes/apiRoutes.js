@@ -143,7 +143,7 @@ module.exports = function (app) {
   // added by jodi
   // created SavedRestaurants table and populating with saved restaurantName 
   app.post("/api/save-restaurant", function (req, res) {
-    db.SavedRestaurants.create({ name: req.body.restaurantName }).then(function () {
+    db.SavedRestaurants.create({ name: req.body.restaurantName, restaurantAddr: req.body.restaurantAddr, restaurantPhone: restaurantPhone }).then(function () {
       res.json("/second");
     });
   });
@@ -183,9 +183,9 @@ module.exports = function (app) {
       if (userData) {
         console.log(`userData = ${JSON.stringify(userData)}`);
         if(userData[0].SavedRestaurants[0] !== undefined) {
-        console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
-        console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
-        console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
+        // console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
+        // console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
+        // console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
         }
         // var restaurant = [
         //   userData[0].SavedRestaurants[0].name,
