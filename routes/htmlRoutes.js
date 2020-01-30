@@ -75,6 +75,11 @@ module.exports = function (app) {
     res.render("second");
   });
 
+  app.get("/restaurants", function (req, res) {
+    console.log(`In app.get(/restaurants), req.body = ${JSON.stringify(req.body)}`);
+    // res.render("results-modal", req.body);
+  });
+
   // Takes in top 5 restaurants and passes to recommendation modal
   app.get("/topfive", function (req, res) {
     console.log(`In app.get(/topfive), req.body = ${JSON.stringify(req.body)}`);
