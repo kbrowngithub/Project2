@@ -182,7 +182,7 @@ module.exports = function (app) {
     }).then(function (userData) {
       if (userData) {
         console.log(`userData = ${JSON.stringify(userData)}`);
-        if(userData[0].SavedRestaurants[0] !== undefined) {
+        if(userData[0] !== undefined) {
         // console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
         // console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
         // console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
