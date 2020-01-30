@@ -162,7 +162,12 @@ survey.onComplete.add(function (result) {
     console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
     $.post("/api/restaurants", userData, function (data) {
         console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
-
+        if(data.status === 404) {
+            console.log("No data for that location");
+        }
+        else {
+            window.location.replace("/restaurants");
+        }
         // Grab the result from the AJAX post so that the best match's name and photo are displayed.
         // console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
         // $('#rname').text(data.name);
@@ -195,7 +200,10 @@ survey.onComplete.add(function (result) {
         event.preventDefault();
 
         $.post("/api/save-restaurant", {
-            restaurantName: $("input:checked").val()
+            // restaurantName: $("input:checked").val()
+            restaurantName: "Name 1",
+            restaurantAddr: "Addr 1",
+            restaurantPhone: "Phone 1"
         }).then(function (response) {
             window.location.replace(response);
         });

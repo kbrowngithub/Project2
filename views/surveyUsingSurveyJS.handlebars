@@ -22,9 +22,9 @@
                         {{!-- Suggested Restaurants within results modal --}}
                         <div class="suggested-restaurants">
                             {{#each restaurant}}
-                            <p class="restaurant-names">{{name}}<input
+                            <p class="restaurant-names">{{name}} {{addr}} {{phone}}<input
                                     class="form-check-input position-static float-right" type="radio" name="blankRadio"
-                                    value="{{name}}" aria-label="..."></p>
+                                    value="{{name}} {{addr}} {{phone}}" aria-label="..."></p>
                             {{/each}}
                         </div>
                     </div>
