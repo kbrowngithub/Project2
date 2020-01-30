@@ -2,8 +2,39 @@ Survey
     .StylesManager
     .applyTheme("modern");
 
+// function validateZipCode(elementValue) {
+//     var zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+//     return zipCodePattern.test(elementValue);
+// }
+
+// function validateAddress(address) {
+//     var addr;
+//     var city = "";
+//     var state = "";
+//     var zip = "";
+
+//     if (address !== undefined && address !== null) {
+//         if (address.indexOf(",") !== -1) {
+//             addr = address.split(",");
+//         }
+//         else {
+//             addr = address.split(" ");
+//         }
+//         state = addr.pop().trim();
+//         if (state.match(/^[0-9]+$/) !== null) {
+//             zip = state;
+//             state = "";
+//         }
+
+//         city = addr.join(" ").trim();
+//         console.log("City = " + city);
+//         console.log("State = " + state);
+//         console.log("Zip = " + zip);
+//     }
+// }
+
 var json = {
-    // "completedHtml": "<h3>Restaurant Recommendations</h3>",
+    "completedHtml": "<h3>One Moment While We Process Your Results ...</h3>",
     "completedHtmlOnCondition": [
         {
             "expression": "{nps_score} > 5",
@@ -103,11 +134,11 @@ var json = {
 };
 
 window.survey = new Survey.Model(json);
+// var loc = "80919"; // For testing only, needs to be populated from question block above
 
-var loc = "80919"; // For testing only, needs to be populated from question block above
 survey.onComplete.add(function (result) {
 
-    var search;
+    var loc = result.data.City;
 
     if (result.data.q1 >= 3) {
         result.data.q1 = 'spicy';
@@ -141,7 +172,6 @@ survey.onComplete.add(function (result) {
     }
 
     var scores = [
-        result.data.City,
         result.data.q1,
         result.data.q2,
         result.data.q3,
@@ -159,32 +189,49 @@ survey.onComplete.add(function (result) {
         scores: scores.join("%252C")
     };
 
-    console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
-    $.post("/api/restaurants", userData, function (data) {
-        console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
-        if(data.status === 404) {
-            console.log("No data for that location");
-        }
-        else {
-            window.location.replace("/restaurants");
-        }
+    // console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
+    // $.post("/api/restaurants", userData, function (data) {
+    //     console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
+    //     if (data.status === 404) {
+    //         console.log("No data for that location");
+    //     }
+    //     else {
+    //         // window.location.replace("/restaurants");
+    //     }
         // Grab the result from the AJAX post so that the best match's name and photo are displayed.
         // console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
         // $('#rname').text(data.name);
         // $('#raddress').text(data.address);
         // $('#rphone').text(data.phone);
 
-    });
+    // });
 
     // added by jodi
     // on click function to open survey results modal
     $(document).on("click", ".sv-btn", function (event) {
         event.preventDefault();
 
-        $("#results-modal").modal("toggle");
+        console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
+        $.post("/api/restaurants", userData, function (data) {
+            console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
+            if (data.status === 404) {
+                console.log("No data for that location");
+            }
+            else {
+                // window.location.replace("/restaurants");
+            }
+            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+            // console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
+            // $('#rname').text(data.name);
+            // $('#raddress').text(data.address);
+            // $('#rphone').text(data.phone);
 
-        //hides surveyJS results page
-        $(".sv-completedpage").hide();
+        }).then(function () {
+            $("#results-modal").modal("toggle");
+
+            //hides surveyJS results page
+            $(".sv-completedpage").hide();
+        });
     });
 
     // exit button on survey will take user to home page

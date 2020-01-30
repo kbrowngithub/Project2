@@ -174,6 +174,16 @@ var refreshExamples = function () {
   });
 };
 
+var validatePhone = function (num) {
+  var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  if (num.match(phoneno)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 // handle form submit user info with onclick and redirects to second page
 var handleFormSubmit = function (event) {
   event.preventDefault();
@@ -184,19 +194,27 @@ var handleFormSubmit = function (event) {
   };
 
   // if user doesn't fill in all fields display message
-  if (!(user.name && user.cell)) {
-    $("#first-error-message").text("Please enter a name and phone number");
+  if (!user.name) {
+    $("#first-error-message").text("Name is required");
     return;
-  };
+  } else if (!user.cell) {
+    $("#first-error-message").text("Cell number is required");
+    return;
+  } else if (!validatePhone(user.cell)) {
+    $("#first-error-message").text("A valid cell number is required");
+    return;
+  } else {
+    $("#first-error-message").text("");
+  }
 
-  API.getUser(user).then(function(data) {
+  API.getUser(user).then(function (data) {
     console.log(`data = ${JSON.stringify(data[0])}`);
     console.log(`name = ${data[0].name}`);
     sessionStorage.setItem("userID", data[0].id);
     console.log(`userID = ${sessionStorage.getItem("userID")}`);
-    location.replace("/second/"+user.cell);
+    location.replace("/second/" + user.cell);
   });
-  
+
 
 };
 

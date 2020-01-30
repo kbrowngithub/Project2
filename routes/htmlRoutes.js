@@ -8,6 +8,18 @@ module.exports = function (app) {
     });
   });
 
+  // Create a new example
+  app.get("/testdata/:name/:addr/:phone/:id", function (req, res) {
+    console.log(`/api/testdata/:name/:addr/:phone = ${JSON.stringify(req.params)}`);
+    db.SavedRestaurants.create({
+      name: req.params.name,
+      restaurantAddr: req.params.addr,
+      restaurantPhone: req.params.phone,
+      UserId: req.params.id
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
   // NOT SURE IF WE NEED THIS. didn't want to delete
   // Load example page and pass in an example by id
   // app.get("/example/:id", function (req, res) {
