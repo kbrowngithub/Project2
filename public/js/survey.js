@@ -48,7 +48,10 @@ var json = {
         {
             type: "text",
             name: "City",
-            title: "Enter Your Location: City, State or Zip:"
+            title: "Enter Your Location: City, State or Zip:",
+            
+            
+            
         },
         {
             type: "rating",
@@ -139,6 +142,7 @@ window.survey = new Survey.Model(json);
 survey.onComplete.add(function (result) {
 
     var loc = result.data.City;
+    
 
     if (result.data.q1 >= 3) {
         result.data.q1 = 'spicy';
@@ -147,7 +151,7 @@ survey.onComplete.add(function (result) {
         result.data.q2 = 'vegan';
     }
     if (result.data.q3 >= 3) {
-        result.data.q3 = 'fast%20foo';
+        result.data.q3 = 'fast%20food';
     }
     if (result.data.q4 >= 3) {
         result.data.q4 = 'sea%20food';
@@ -184,7 +188,7 @@ survey.onComplete.add(function (result) {
         result.data.q10
     ];
 
-    var userData = {
+   var userData = {
         loc: loc,
         scores: scores.join("%252C")
     };
@@ -208,9 +212,8 @@ survey.onComplete.add(function (result) {
 
     // added by jodi
     // on click function to open survey results modal
-    $(document).on("click", ".sv-btn", function (event) {
+    $(document).on("click", "input[type='button'][value='Complete']", function (event) {
         event.preventDefault();
-
         console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
         $.post("/api/restaurants", userData, function (data) {
             console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
@@ -220,17 +223,23 @@ survey.onComplete.add(function (result) {
             else {
                 // window.location.replace("/restaurants");
             }
+            for (var i = 0;i<data.data.length;i++){
+                $(".suggested-restaurants").append(`<p class="restaurant-names">${data.data[i].name} ${data.data[i].address} ${data.data[i].phone}<input
+                class="form-check-input position-static float-right" type="radio" name="blankRadio"
+                value="${data.data[i].name} ${data.data[i].address} ${data.data[i].phone}" aria-label="..."></p>`);
+                
+            }
             // Grab the result from the AJAX post so that the best match's name and photo are displayed.
             // console.log(`Restaurant Results: ${JSON.stringify(data, null, 3)}`);
             // $('#rname').text(data.name);
             // $('#raddress').text(data.address);
             // $('#rphone').text(data.phone);
-
         }).then(function () {
+            
             $("#results-modal").modal("toggle");
-
-            //hides surveyJS results page
             $(".sv-completedpage").hide();
+            //hides surveyJS results page
+            
         });
     });
 
@@ -262,6 +271,6 @@ survey.onComplete.add(function (result) {
     //     }).catch(function (error) {
     //         console.log(error)
     //     });
-});
 
+});
 $("#surveyElement").Survey({ model: survey });
