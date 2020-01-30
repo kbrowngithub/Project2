@@ -98,6 +98,18 @@ module.exports = function (app) {
     res.render("results-modal", req.body);
   });
 
+  // Create a new example
+  app.get("/testdata/:name/:addr/:phone/:id", function (req, res) {
+    console.log(`/api/testdata/:name/:addr/:phone = ${JSON.stringify(req.params)}`);
+    db.SavedRestaurants.create({
+      name: req.params.name,
+      restaurantAddr: req.params.addr,
+      restaurantPhone: req.params.phone,
+      UserId: req.params.id
+    }).then(function (result) {
+      res.json(result);
+    });
+  });
   // Load survey page
   // Added by KB. This will launch the Survey Handlebars page
   // app.get("/survey/:location", function (req, res) {

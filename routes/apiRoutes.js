@@ -38,7 +38,7 @@ module.exports = function (app) {
             headers: {"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
                       "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"} 
           };
-          var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
+          var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=3&currency=USD&distance=25&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
           console.log(`TripAdvisor url = ${url}`);
           axios.get(url, options).then(function (response) {
             console.log(`TA: axios response = ${JSON.stringify(response.data, null, 3)}`);
