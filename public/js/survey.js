@@ -212,10 +212,12 @@ survey.onComplete.add(function (result) {
 
     // added by jodi
     // on click function to open survey results modal
+    var restaurantsArr;
     $(document).on("click", "input[type='button'][value='Complete']", function (event) {
         event.preventDefault();
         console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
         $.post("/api/restaurants", userData, function (data) {
+            restaurantsArr = data.data;
             console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
             if (data.status === 404) {
                 console.log("No data for that location");
@@ -255,13 +257,15 @@ survey.onComplete.add(function (result) {
     $(document).on("click", "#survey-save-btn", function (event) {
         event.preventDefault();
 
-        $.post("/api/save-restaurant", {
-            // restaurantName: $("input:checked").val()
-            restaurantName: "Name 1",
+        var userId = sessionStorage.getItem("userID");
+        $.post("/api/save-restaurant/"+userId, {
+            restaurantName: $("input:checked").val(),
             restaurantAddr: "Addr 1",
-            restaurantPhone: "Phone 1"
+            restaurantPhone: "Phone 1",
+            id: userId
         }).then(function (response) {
-            window.location.replace(response);
+            // window.location.replace(response);
+            window.location.replace("/backtostart/"+userId);
         });
     });
 
