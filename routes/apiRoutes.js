@@ -155,6 +155,16 @@ module.exports = function (app) {
     });
   });
 
+  // app.post("/api/validateloc", function (req, res) {
+  //   console.log(`/api/validateloc: req.body = ${req.body}`);
+  //   res.json(validateZip(req.body));
+  // });
+
+  app.get("/api/validateloc/:location", function (req, res) {
+    console.log(`/api/validateloc: req.params.location = ${req.params.location}`);
+    res.json(validateZip(req.params.location));
+  });
+
   // Get all examples
   app.get("/api/examples", function (req, res) {
     db.Example.findAll({}).then(function (dbExamples) {
@@ -204,4 +214,19 @@ module.exports = function (app) {
       res.json(dbExample);
     });
   });
+};
+
+var validateZip = function (elementValue) {
+  console.log(`validateZip(): elementValue = ${elementValue}`);
+
+  // Only try to validate if we think it's a zip code
+  if (elementValue[0].match(/^[0-9]+$/)) {
+    var zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+    console.log(`Zip ${elementValue} evaluated to ${zipCodePattern.test(elementValue)}`);
+    return zipCodePattern.test(elementValue);
+  }
+
+  // Return true for all non-zip entries
+  return true;
+
 };
