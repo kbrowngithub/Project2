@@ -244,9 +244,16 @@ survey.onComplete.add(function (result) {
                 // window.location.replace("/restaurants");
             }
             for (var i = 0; i < data.data.length; i++) {
-                $(".suggested-restaurants").append(`<p class="restaurant-names">${data.data[i].name} ${data.data[i].address} ${data.data[i].phone}<input
-                class="form-check-input position-static float-right" type="radio" name="blankRadio"
-                value="${data.data[i].name} ${data.data[i].address} ${data.data[i].phone}" aria-label="..."></p>`);
+                $(".suggested-restaurants").append(`<ul class="list-group">
+                <h5 class="restaurant-name">${data.data[i].name}
+                <input class="form-check-input position-static float-right" type="radio" name="blankRadio"
+                value="${data.data[i].name}" data-addr="${data.data[i].address}" data-phone="${data.data[i].phone}" aria-label="..."></h5>
+        
+                <p class="restaurant-addr" data-addr="${data.data[i].address}">${data.data[i].address}</p>
+                <p class="restaurant-phone" data-phone="${data.data[i].phone}">${data.data[i].phone}</p>
+                <br>
+                <hr>
+                </ul>`);
 
             }
         }).then(function () {
@@ -273,8 +280,8 @@ survey.onComplete.add(function (result) {
         var userId = sessionStorage.getItem("userID");
         $.post("/api/save-restaurant/" + userId, {
             restaurantName: $("input:checked").val(),
-            restaurantAddr: "Addr 1",
-            restaurantPhone: "Phone 1",
+            restaurantAddr: $("input:checked").data("addr"),
+            restaurantPhone: $("input:checked").data("phone"),
             id: userId
         }).then(function (response) {
             // window.location.replace(response);
