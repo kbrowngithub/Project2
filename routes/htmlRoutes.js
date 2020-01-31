@@ -47,49 +47,62 @@ module.exports = function (app) {
       },
       include: [db.SavedRestaurants]
     }).then(function (userData) {
-      var returning_user = userData[0].name;
-
       console.log(`userData = ${JSON.stringify(userData)}`);
       var restaurant = [];
       var r = userData[0].SavedRestaurants;
-      for(var i = 0; i < r.length; i++) {
-        console.log(`restaurant name = ${JSON.stringify(userData[0].SavedRestaurants[i].name)}`);
-        restaurant.push({name: userData[0].SavedRestaurants[i].name});
-        console.log(`restaurant[${i}] = ${restaurant[i].name}`);
-      }
-      var uData = {
-        name: userData[0].name,
-        returning_user: returning_user,
-        restaurant: restaurant
-      };
+      var uData = {};
 
-      // if (userData[0].SavedRestaurants !== null) {
-        // console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
-        // console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
-        // console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
-        console.log(`render second page with uData =  ${JSON.stringify(uData)} and returning_user = ${returning_user}`);
-        res.render("second", uData);
-      // } else {
-        // console.log(`No saved restaurants for this user`);
-        // res.render("second", {
-        //   name: userData[0].name
-        // });
-      // }
+      if (r.length === 0) {
+        uData = {
+          name: userData[0].name
+        };
+      } else {
+        for (var i = 0; i < r.length; i++) {
+          console.log(`restaurant name = ${JSON.stringify(userData[0].SavedRestaurants[i].name)}`);
+          restaurant.push({ name: userData[0].SavedRestaurants[i].name });
+          console.log(`restaurant[${i}] = ${restaurant[i].name}`);
+        }
+        uData = {
+          name: userData[0].name,
+          restaurant: restaurant
+        };
+      }
+      console.log(`render second page with uData =  ${JSON.stringify(uData)}`);
+      res.render("second", uData);
     });
   });
 
-  app.get("/second", function (req, res) {
-    console.log(`In app.get(/second), req.body = ${JSON.stringify(req.body)}`);
-    // res.render("second", {
-    //   name: req.body.name,
-    //   restaurants: req.body.SavedRestaurants
-    // });
-    res.render("second");
-  });
+  app.get("/backtostart/:id", function (req, res) {
+    console.log(`In app.get(/backtostart), req.body = ${JSON.stringify(req.body)}`);
+    db.User.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [db.SavedRestaurants]
+    }).then(function (userData) {
+      console.log(`userData = ${JSON.stringify(userData)}`);
+      var restaurant = [];
+      var r = userData.SavedRestaurants;
+      var uData = {};
 
-  app.get("/restaurants", function (req, res) {
-    console.log(`In app.get(/restaurants), req.body = ${JSON.stringify(req.body)}`);
-    // res.render("results-modal", req.body);
+      if (r.length === 0) {
+        uData = {
+          name: userData.name
+        };
+      } else {
+        for (var i = 0; i < r.length; i++) {
+          console.log(`restaurant name = ${JSON.stringify(userData.SavedRestaurants[i].name)}`);
+          restaurant.push({ name: userData.SavedRestaurants[i].name });
+          console.log(`restaurant[${i}] = ${restaurant[i].name}`);
+        }
+        uData = {
+          name: userData.name,
+          restaurant: restaurant
+        };
+      }
+      console.log(`render second page with uData =  ${JSON.stringify(uData)}`);
+      res.render("second", uData);
+    });
   });
 
   // Takes in top 5 restaurants and passes to recommendation modal

@@ -8,92 +8,6 @@ var $exampleList = $("#example-list");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  // This function added by KB
-  // getMapData: function (search) {
-  //   console.log(`getMapData(): search = ${search}`);
-  //   var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q="
-  //   // var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=Denver,CO"
-  //   var queryTerm = '';
-  //   for (let i = 0; i < search.length; i++) {
-  //     if (search[i] === ' ') {
-  //       queryTerm += '+';
-  //     } else {
-  //       queryTerm += search[i].toLowerCase();
-  //     }
-  //   }
-
-  //   return $.ajax({
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     type: "GET",
-  //     url: url + queryTerm,
-  //     success: function (response) {
-  //       console.log(JSON.stringify(response[0], null, 2));
-  //       // TODO: Do we need to test for city value here???
-  //       // if (response[0].address.city) {
-  //       //     console.log(JSON.stringify(response));
-  //       //     var city = response[0].address.city;
-  //       //     //var postcode = response[0].address.postcode;
-  //       //     var state = response[0].address.state;
-  //       //     var lat = response[0].lat;
-  //       //     var lon = response[0].lon;
-  //       // } else {
-  //       //     console.log(response);
-  //       //     console.log('Incorrect search');
-  //       // }
-
-  //       // TODO: Do we need a DB push here???
-  //     },
-  //     error: function (xhr, ajaxOptions, thrownError) {
-  //       console.log(xhr.status);
-  //       console.log(thrownError);
-  //     }
-  //   });
-  // },
-  // //NATHANIEL's API STUFF
-  // getTripAdvisor: function (city, paramsArr) {
-  //   console.log(`getTripAdvisor: location = ${city}`);
-  //   return new Promise(function (resolve, reject) {
-  //     function citySettings(city) {
-  //       return {
-  //         "async": true,
-  //         "crossDomain": true,
-  //         "url": "https://tripadvisor1.p.rapidapi.com/locations/search?limit=1&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city,
-  //         "method": "GET",
-  //         "headers": {
-  //           "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-  //           "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
-  //         }
-  //       }
-  //     }
-  //     function restaurantSettings(lat, lon) {
-  //       return {
-  //         "async": true,
-  //         "crossDomain": true,
-  //         "url": "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=30&currency=USD&distance=2&lunit=km&combined_food=" +paramsArr.join("%252C")+ "&lang=en_US&latitude=" + lat + "&longitude=" + lon,
-  //         "method": "GET",
-  //         "headers": {
-  //           "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-  //           "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
-  //         }
-  //       }
-  //     }
-
-  //     $.get(citySettings(city))
-  //       .then(function ({ data }) {
-  //         const { latitude, longitude } = data[0].result_object;
-  //         return $.get(restaurantSettings(latitude, longitude))
-  //       })
-  //       .then(function ({ data }) {
-  //         resolve(data);
-  //       })
-  //       .catch(function (error) {
-  //         reject(error)
-  //       });
-  //   })
-  // },
-
   getUser: function (user) {
     console.log(`getUser(): user = ${JSON.stringify(user)}`);
     return $.ajax({
@@ -210,12 +124,15 @@ var handleFormSubmit = function (event) {
   API.getUser(user).then(function (data) {
     console.log(`data = ${JSON.stringify(data[0])}`);
     console.log(`name = ${data[0].name}`);
+
+    // Store the userid in the session since we'll need it later for saving 
+    // the user's chosen restaurant. In the real world this should be handled
+    // by using something like Passport.
     sessionStorage.setItem("userID", data[0].id);
     console.log(`userID = ${sessionStorage.getItem("userID")}`);
+    
     location.replace("/second/" + user.cell);
   });
-
-
 };
 
 // added by jodi
@@ -248,5 +165,4 @@ var handleDeleteBtnClick = function () {
 };
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-// $exampleList.on("click", ".delete", handleDeleteBtnClick);
 
