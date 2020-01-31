@@ -4,15 +4,10 @@ var axios = require("axios");
 module.exports = function (app) {
   // Get restaurants
   app.post("/api/restaurants", function (req, res) {
-    // db.Example.findAll({}).then(function(dbExamples) {
-    //   res.json(dbExamples);
-    // });
     console.log(`/api/restaurants: req.body = ${JSON.stringify(req.body)}`);
     console.log(`/api/restaurants: req.body.loc = ${req.body.loc}`);
     console.log(`/api/restaurants: req.body.scores = ${req.body.scores}`);
-    // req.body.loc and req.body.search (array)
-    //MOVE THIS TO HTML
-    // MapDataApi call (req.body.loc)
+
     var search = req.body.loc;
     var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=";
     var queryTerm = '';
@@ -85,62 +80,49 @@ module.exports = function (app) {
       console.log(error.config);
     });
 
-    //END
-
     // TODO: logic for calculating restaurant to return goes here
     // calculateTopFive(req.body.search);
-
-    // Just for testing
-    // var prevRestaurants = {
-    //   "name": "R-Name",
-    //   "address": "1111 SomeStreet, city, ST",
-    //   "phone": "111-111-1111"
-    // };
-
-    // res.json(restaurants);
-    // Need to figure out how to pass all the data
-    // res.redirect("url here plus the top 5 restaurants" );
   });
 
   // KB Sequelize Testing
-  app.get("/api/tables/:table", function (req, res) {
-    console.log(`apiRoutes.js: req.params.table = ${req.params.table}`);
-    switch (req.params.table) {
-      // This case was just for loading initial test entries into the db tables
-      // case "t":
-      // db.User.create({"name": "Kevin","cell": "1234567890"}).then(function (data) {
-      //   res.json(data);
-      // });
-      // db.Restaurant.create({"restaurantName": "Rusty Pelican","restaurantAddr": "123 Some Blvd, Brea, CA","restaurantPhone":"1111112345"}).then(function (data) {
-      //   res.json(data);
-      // });
-      // db.Post.create({"rating": "5","notes": "Very good seafood!","UserId":"1","RestaurantId":"1"}).then(function (data) {
-      //   res.json(data);
-      // });
-      // break;
+  // app.get("/api/tables/:table", function (req, res) {
+  //   console.log(`apiRoutes.js: req.params.table = ${req.params.table}`);
+  //   switch (req.params.table) {
+  //     // This case was just for loading initial test entries into the db tables
+  //     case "t":
+  //     db.User.create({"name": "Kevin","cell": "1234567890"}).then(function (data) {
+  //       res.json(data);
+  //     });
+  //     db.Restaurant.create({"restaurantName": "Rusty Pelican","restaurantAddr": "123 Some Blvd, Brea, CA","restaurantPhone":"1111112345"}).then(function (data) {
+  //       res.json(data);
+  //     });
+  //     db.Post.create({"rating": "5","notes": "Very good seafood!","UserId":"1","RestaurantId":"1"}).then(function (data) {
+  //       res.json(data);
+  //     });
+  //     break;
 
-      case "users":
-        db.User.findAll({}).then(function (data) {
-          res.json(data);
-        });
-        break;
+  //     case "users":
+  //       db.User.findAll({}).then(function (data) {
+  //         res.json(data);
+  //       });
+  //       break;
 
-      case "restaurants":
-        db.Restaurant.findAll({}).then(function (data) {
-          res.json(data);
-        });
-        break;
+  //     case "restaurants":
+  //       db.Restaurant.findAll({}).then(function (data) {
+  //         res.json(data);
+  //       });
+  //       break;
 
-      case "posts":
-        db.Post.findAll({}).then(function (data) {
-          res.json(data);
-        });
-        break;
+  //     case "posts":
+  //       db.Post.findAll({}).then(function (data) {
+  //         res.json(data);
+  //       });
+  //       break;
 
-      default:
-        res.json({ status: "404" });
-    }
-  });
+  //     default:
+  //       res.json({ status: "404" });
+  //   }
+  // });
 
   // added by jodi
   // created SavedRestaurants table and populating with saved restaurantName 
@@ -162,7 +144,30 @@ module.exports = function (app) {
 
   app.get("/api/validateloc/:location", function (req, res) {
     console.log(`/api/validateloc: req.params.location = ${req.params.location}`);
-    res.json(validateZip(req.params.location));
+
+    var search = req.params.location;
+    var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=";
+    var queryTerm = '';
+    for (let i = 0; i < search.length; i++) {
+      if (search[i] === ' ') {
+        queryTerm += '+';
+      } else {
+        queryTerm += search[i].toLowerCase();
+      }
+    }
+    axios.get(url + queryTerm).then(function (response) {
+      console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
+      if (response.data.length > 0) {
+        var lat = response.data[0].lat;
+        var lon = response.data[0].lon;
+        console.log(`validateZip(): got OSM data`);
+        res.json(true);
+      } else {
+        console.log(`validateZip(): No data returned from OSM!`);
+        res.json(false);
+      }
+    });
+    // res.json(validateZip(req.params.location));
   });
 
   // Get all examples
@@ -175,12 +180,6 @@ module.exports = function (app) {
   // Get user
   app.post("/api/user", function (req, res) {
     console.log(`/api/user: req.body = ${JSON.stringify(req.body)}`);
-    // db.User.findOrCreate({
-    //   where: { name: req.body.name, cell: req.body.cell }
-    // }).then(function (userData) {
-    //   res.json(userData);
-    // });
-
     db.User.findOrCreate({
       where: {
         name: req.body.name,
@@ -190,17 +189,6 @@ module.exports = function (app) {
     }).then(function (userData) {
       if (userData) {
         console.log(`userData = ${JSON.stringify(userData)}`);
-        if (userData[0] !== undefined) {
-          // console.log(`restaurant1 = ${JSON.stringify(userData[0].SavedRestaurants[0].name)}`);
-          // console.log(`restaurant2 = ${JSON.stringify(userData[0].SavedRestaurants[1].name)}`);
-          // console.log(`restaurant3 = ${JSON.stringify(userData[0].SavedRestaurants[2].name)}`);
-        }
-        // var restaurant = [
-        //   userData[0].SavedRestaurants[0].name,
-        //   userData[0].SavedRestaurants[1].name,
-        //   userData[0].SavedRestaurants[2].name
-        // ];
-
         res.json(userData);
       } else {
         res.json(500, "Server error; no data");
@@ -216,17 +204,37 @@ module.exports = function (app) {
   });
 };
 
-var validateZip = function (elementValue) {
-  console.log(`validateZip(): elementValue = ${elementValue}`);
+// var validateZip = function (elementValue) {
+//   var valid = false;
+//   console.log(`validateZip(): elementValue = ${elementValue}`);
 
-  // Only try to validate if we think it's a zip code
-  if (elementValue[0].match(/^[0-9]+$/)) {
-    var zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
-    console.log(`Zip ${elementValue} evaluated to ${zipCodePattern.test(elementValue)}`);
-    return zipCodePattern.test(elementValue);
-  }
+//   var search = elementValue;
+//   var url = "https://nominatim.openstreetmap.org/?format=json&limit=1&addressdetails=1&countrycodes=US&q=";
+//   var queryTerm = '';
+//   for (let i = 0; i < search.length; i++) {
+//     if (search[i] === ' ') {
+//       queryTerm += '+';
+//     } else {
+//       queryTerm += search[i].toLowerCase();
+//     }
+//   }
 
-  // Return true for all non-zip entries
-  return true;
-
-};
+//   // Open Street Maps call
+//   axios.get(url + queryTerm).then(function (response) {
+//     console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
+//     if (response.data[0].lat) {
+//       var lat = response.data[0].lat;
+//       var lon = response.data[0].lon;
+//       console.log(`validateZip(): got OSM data`);
+//       valid = true;
+//       console.log(`validateZip(): valid = ${valid}`);
+//       // return valid;
+//     } else {
+//       console.log(`validateZip(): No data returned from OSM!`); ret
+//       // return valid;
+//     }
+//     return;
+//   });
+//   console.log(`validateZip(): returning ${valid}`);
+//   return valid;
+// };
