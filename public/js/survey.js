@@ -2,34 +2,27 @@
 function surveyValidateQuestion(survey, options) {
     //options.data contains the data for the current page.
     var countryName = options.data["City"];
-   
+
     //call the ajax method
-    $
-        .ajax({ url: "/api/validateloc/" + countryName })
+    $.ajax({ url: "/api/validateloc/" + countryName })
         .then(function (data) {
-            
+
             console.log(`survey validator: data = ${data}`);
 
             //if the country is unknown, add the error
-            
             if (!data) {
                 alert("Please enter a valid location.")
                 options.errors["City"] = "The location '" + countryName + "' is not valid";
             }
-
             //tell survey that we are done with the server validation
             options.complete();
-            
+
         });
 }
-
-
 
 Survey
     .StylesManager
     .applyTheme("modern");
-
-
 
 var json = {
     "completedHtml": "<h3>One Moment While We Process Your Results ...</h3>",
@@ -47,9 +40,6 @@ var json = {
             type: "text",
             name: "City",
             title: "Enter Your Location: City, State or Zip:",
-
-
-
         },
         {
             type: "rating",
@@ -201,20 +191,18 @@ survey.onComplete.add(function (result) {
         scores: scores.join("%252C")
     };
 
-    
     // on click function to open survey results modal
     // $(document).on("click", "input[type='button'][value='Complete']", function (event) {
-        // event.preventDefault();
-        console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
-        $.post("/api/restaurants", userData, function (data) {
-            restaurantsArr = data.data;
-            console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
-            if (data.status === 404) {
-                console.log("No data for that location");
-            }
-            
-            for (var i = 0; i < data.data.length; i++) {
-                $(".suggested-restaurants").append(`<ul class="list-group">
+    // event.preventDefault();
+    console.log(`survey.js: sending userData = ${JSON.stringify(userData, null, 3)}`);
+    $.post("/api/restaurants", userData, function (data) {
+        restaurantsArr = data.data;
+        console.log(`Data from post to /api/restaurants = ${JSON.stringify(data, null, 3)}`);
+        if (data.status === 404) {
+            console.log("No data for that location");
+        }
+        for (var i = 0; i < data.data.length; i++) {
+            $(".suggested-restaurants").append(`<ul class="list-group">
                 <h5 class="restaurant-name">${data.data[i].name}
                 <input class="form-check-input position-static float-right" type="radio" name="blankRadio"
                 value="${data.data[i].name}" data-addr="${data.data[i].address}" data-phone="${data.data[i].phone}" aria-label="..."></h5>
@@ -223,25 +211,19 @@ survey.onComplete.add(function (result) {
                 <p class="restaurant-phone" data-phone="${data.data[i].phone}">${data.data[i].phone}</p>
                 <hr>
                 </ul>`);
-
-            }
-        }).then(function () {
-
-            $("#results-modal").modal("toggle");
-            $(".sv-completedpage").hide();
-            //hides surveyJS results page
-
-        });
-    
+        }
+    }).then(function () {
+        $("#results-modal").modal("toggle");
+        $(".sv-completedpage").hide();
+        //hides surveyJS results page
+    });
 
     // exit button on survey will take user to home page
     $("#survey-exit-btn").on("click", function (event) {
         event.preventDefault();
-
         window.location.replace("/");
     });
 
-    
     // save button on results modal will capture user's selected restaurant, save to DB, and return user to user landing page
     $(document).on("click", "#survey-save-btn", function (event) {
         event.preventDefault();
@@ -257,10 +239,6 @@ survey.onComplete.add(function (result) {
             window.location.replace("/backtostart/" + userId);
         });
     });
-
-   
-
 });
-
 
 $("#surveyElement").Survey({ model: survey });
