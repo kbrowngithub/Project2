@@ -221,7 +221,6 @@ survey.onComplete.add(function (result) {
         
                 <p class="restaurant-addr" data-addr="${data.data[i].address}">${data.data[i].address}</p>
                 <p class="restaurant-phone" data-phone="${data.data[i].phone}">${data.data[i].phone}</p>
-                <br>
                 <hr>
                 </ul>`);
 
