@@ -1,6 +1,7 @@
 var db = require("../models");
 var axios = require("axios");
 
+
 module.exports = function (app) {
   // Get restaurants
   app.post("/api/restaurants", function (req, res) {
@@ -32,7 +33,7 @@ module.exports = function (app) {
       const options = {
         headers: {
           "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-          "x-rapidapi-key": "2c641ac47amshde4fb7d34f243e5p1ea1dajsn860dafbf04af"
+          "x-rapidapi-key": process.env.TRIP_KEY
         }
       };
       var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=5&currency=USD&distance=25&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
