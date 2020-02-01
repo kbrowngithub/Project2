@@ -2,26 +2,16 @@
 function surveyValidateQuestion(survey, options) {
     //options.data contains the data for the current page.
     var countryName = options.data["City"];
-    //If the question is empty then do nothing
-    // if (!countryName)
-    //     options.complete();
-
+   
     //call the ajax method
     $
         .ajax({ url: "/api/validateloc/" + countryName })
         .then(function (data) {
-            // var found = false;
-            // var countries = data;
-            // for (var i = 0; i < countries.length; i++) {
-            //     if (countries[i].name == countryName) {
-            //         found = true;
-            //         break;
-            //     }
-            // }
+            
             console.log(`survey validator: data = ${data}`);
 
             //if the country is unknown, add the error
-            // if (!found)
+            
             if (!data) {
                 alert("Please enter a valid location.")
                 options.errors["City"] = "The location '" + countryName + "' is not valid";
@@ -39,36 +29,7 @@ Survey
     .StylesManager
     .applyTheme("modern");
 
-// function validateZipCode(elementValue) {
-//     var zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
-//     return zipCodePattern.test(elementValue);
-// }
 
-// function validateAddress(address) {
-//     var addr;
-//     var city = "";
-//     var state = "";
-//     var zip = "";
-
-//     if (address !== undefined && address !== null) {
-//         if (address.indexOf(",") !== -1) {
-//             addr = address.split(",");
-//         }
-//         else {
-//             addr = address.split(" ");
-//         }
-//         state = addr.pop().trim();
-//         if (state.match(/^[0-9]+$/) !== null) {
-//             zip = state;
-//             state = "";
-//         }
-
-//         city = addr.join(" ").trim();
-//         console.log("City = " + city);
-//         console.log("State = " + state);
-//         console.log("Zip = " + zip);
-//     }
-// }
 
 var json = {
     "completedHtml": "<h3>One Moment While We Process Your Results ...</h3>",
@@ -229,7 +190,7 @@ survey.onComplete.add(function (result) {
         scores: scores.join("%252C")
     };
 
-    // added by jodi
+    
     // on click function to open survey results modal
     // $(document).on("click", "input[type='button'][value='Complete']", function (event) {
         // event.preventDefault();
@@ -240,9 +201,7 @@ survey.onComplete.add(function (result) {
             if (data.status === 404) {
                 console.log("No data for that location");
             }
-            else {
-                // window.location.replace("/restaurants");
-            }
+            
             for (var i = 0; i < data.data.length; i++) {
                 $(".suggested-restaurants").append(`<ul class="list-group">
                 <h5 class="restaurant-name">${data.data[i].name}
@@ -263,7 +222,7 @@ survey.onComplete.add(function (result) {
             //hides surveyJS results page
 
         });
-    // });
+    
 
     // exit button on survey will take user to home page
     $("#survey-exit-btn").on("click", function (event) {
@@ -272,7 +231,7 @@ survey.onComplete.add(function (result) {
         window.location.replace("/");
     });
 
-    // added by jodi
+    
     // save button on results modal will capture user's selected restaurant, save to DB, and return user to user landing page
     $(document).on("click", "#survey-save-btn", function (event) {
         event.preventDefault();
@@ -289,12 +248,7 @@ survey.onComplete.add(function (result) {
         });
     });
 
-    // API.getTripAdvisor(location, search)
-    //     .then(function (data) {
-    //         console.log("NATHANIEL'S APICALL: ", data);
-    //     }).catch(function (error) {
-    //         console.log(error)
-    //     });
+   
 
 });
 
