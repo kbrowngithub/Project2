@@ -141,49 +141,60 @@ survey.onComplete.add(function (result) {
     console.log("Survey Complete function");
 
     var loc = result.data.City;
+    var scores = [];
     if (result.data.q1 >= 3) {
-        result.data.q1 = 'spicy';
+        // result.data.q1 = 'spicy';
+        scores.push('spicy');
     }
     if (result.data.q2 >= 3) {
-        result.data.q2 = 'vegan';
+        // result.data.q2 = 'vegan';
+        scores.push('vegan');
     }
     if (result.data.q3 >= 3) {
-        result.data.q3 = 'fast%20food';
+        // result.data.q3 = 'fast%20food';
+        scores.push('fast%20food');
     }
     if (result.data.q4 >= 3) {
-        result.data.q4 = 'sea%20food';
+        // result.data.q4 = 'sea%20food';
+        scores.push('sea%20food');
     }
     if (result.data.q5 >= 3) {
-        result.data.q5 = 'family%20style';
+        // result.data.q5 = 'family%20style';
+        scores.push('family%20style');
     }
     if (result.data.q6 >= 3) {
-        result.data.q6 = 'gluten%20free';
+        // result.data.q6 = 'gluten%20free';
+        scores.push('gluten%20free');
     }
     if (result.data.q7 >= 3) {
-        result.data.q7 = 'sandwiches';
+        // result.data.q7 = 'sandwiches';
+        scores.push('sandwiches');
     }
     if (result.data.q8 >= 3) {
-        result.data.q8 = 'salads';
+        // result.data.q8 = 'salads';
+        scores.push('salads');
     }
     if (result.data.q9 >= 3) {
-        result.data.q9 = 'buffet';
+        // result.data.q9 = 'buffet';
+        scores.push('buffet');
     }
     if (result.data.q10 >= 3) {
-        result.data.q10 = 'apatizers';
+        // result.data.q10 = 'apatizers';
+        scores.push('apatizers');
     }
 
-    var scores = [
-        result.data.q1,
-        result.data.q2,
-        result.data.q3,
-        result.data.q4,
-        result.data.q5,
-        result.data.q6,
-        result.data.q7,
-        result.data.q8,
-        result.data.q9,
-        result.data.q10
-    ];
+    // var scores = [
+    //     result.data.q1,
+    //     result.data.q2,
+    //     result.data.q3,
+    //     result.data.q4,
+    //     result.data.q5,
+    //     result.data.q6,
+    //     result.data.q7,
+    //     result.data.q8,
+    //     result.data.q9,
+    //     result.data.q10
+    // ];
 
     var userData = {
         loc: loc,
