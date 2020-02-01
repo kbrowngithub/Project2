@@ -129,7 +129,7 @@
 
 /* MEDIA QUERIES */
 /* FIRST PAGE */
- @media screen and (max-width: 480px) {
+ @media screen and (max-width: 375px) {
   .index-body {
     background-size: 100%;
     background-attachment: fixed;
@@ -138,60 +138,83 @@
   }
 
   .first-container {
-    width: 30rem;
+    width: 23.5rem;
   }
 
   .header {
-    font-size: 3.1rem;
+    font-size: 2.6rem;
     margin-bottom: 1.4rem;
   }
 
   .user-info-form {
-    width: 25rem;
+    width: 20rem;
   }
 
   .sub-header {
-    width: 26rem;
-    margin-left: 1.6rem;
+    width: 21rem;
+    margin-left: .5rem;
     font-size: 1.1rem;
   }
 
   .entr-name {
     font-size: 1.2rem;
   }
-}
-
-@media screen and (max-width: 768px) {
-  .first-container {
-    width: 31rem;
-  }
-
-  .header {
-    font-size: 3.1rem;
-    margin-bottom: 1.4rem;
-  }
-
-  .sub-header {
-    width: 26rem;
-    margin-left: 1.6rem;
-    font-size: 1.1rem;
-  }
-
-  .user-info-form {
-    width: 25rem;
-  }
-
-  .entr-name {
-    font-size: 1.2rem;
-  }
-}
 
 
-
-/* SECOND PAGE */
-@media screen and (max-width: 480px) {
+  /* Second page */
   .second-container {
-    width: 34rem;
+    width: 23.5rem;
+  }
+
+  .users-name {
+    font-size: 1.5rem;
+  }
+
+  h6 {
+    font-size: 1rem;
+  }
+
+  .list-group-item {
+    width: 20rem;
+    font-size: 1rem;
+  }
+ }
+
+ 
+ @media screen and (max-width: 415px) { 
+  .index-body {
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .first-container {
+    width: 26rem;
+  }
+
+  .header {
+    font-size: 2.8rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .user-info-form {
+    width: 22rem;
+  }
+
+  .sub-header {
+    width: 22rem;
+    margin-left: 1.3rem;
+    font-size: 1.1rem;
+  }
+
+  .entr-name {
+    font-size: 1.2rem;
+  }
+
+  /* Second page */
+  .second-container {
+    width: 26rem;
   }
 
   .users-name {
@@ -199,36 +222,11 @@
   }
 
   h6 {
-    font-size: 1.4rem;
+    font-size: 1rem;
   }
 
   .list-group-item {
-    width: 32rem;
-    font-size: 1.3rem;
-  }
-
-  .rate-emojis {
-    font-size: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .second-container {
-    width: 40rem;
-  }
-
-  .list-group-item {
-    font-size: 1.2rem;
-  }
-}
-
-/* SURVEY PAGE */
-@media screen and (max-width: 480px) {
-  .survey-body {
-    background-size: 100%;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-size: 15px;
+    width: 23.5rem;
+    font-size: 1rem;
   }
 }
