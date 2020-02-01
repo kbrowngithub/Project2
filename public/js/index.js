@@ -143,23 +143,6 @@ $("#go-to-survey").on("click", function (event) {
   window.location.href = "/survey";
 });
 
-// added by jodi
-// on click for each emoji rating
-$(".rate-emojis").on("click", function () {
-  var emoji = $(this).attr("id");
-  $(this).addClass("emojiclicked")
-  console.log(emoji);
-  $(this).off("click");
-});
-
-// $(".rate-emojis").on("click", function () {
-//   var emoji = $(".rate-emojis");
-//   for (var i = 0; i < emoji.length; i++) {
-//     $(this).addClass("emojiclicked");
-//     $(this).off("click");
-    
-//   }
-
 // handleDeleteBtnClick is called when an example's delete button is clicked
 // Remove the example from the db and refresh the list
 var handleDeleteBtnClick = function () {
