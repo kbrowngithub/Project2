@@ -58,36 +58,6 @@ var showMapData = function (data) {
   $exampleList.append($examples);
 }
 
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function () {
-  API.getExamples().then(function (data) {
-    var $examples = data.map(function (example) {
-      var $a = $("<a>")
-        // .text(example.text)
-        .text(`${example.text}: ${example.description}`)
-        .attr("href", "/example/" + example.id);
-
-      var $li = $("<li>")
-        .attr({
-          class: "list-group-item",
-          "data-id": example.id
-        })
-        .append($a);
-
-      var $button = $("<button>")
-        .addClass("btn btn-danger float-right delete")
-        .text("ｘ");
-
-      $li.append($button);
-
-      return $li;
-    });
-
-    $exampleList.empty();
-    $exampleList.append($examples);
-  });
-};
-
 var validatePhone = function (num) {
   var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   if (num.match(phoneno)) {
@@ -130,7 +100,7 @@ var handleFormSubmit = function (event) {
     // by using something like Passport.
     sessionStorage.setItem("userID", data[0].id);
     console.log(`userID = ${sessionStorage.getItem("userID")}`);
-    
+
     location.replace("/second/" + user.cell);
   });
 };
@@ -143,17 +113,5 @@ $("#go-to-survey").on("click", function (event) {
   window.location.href = "/survey";
 });
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-var handleDeleteBtnClick = function () {
-  var idToDelete = $(this)
-    .parent()
-    .attr("data-id");
-
-  API.deleteExample(idToDelete).then(function () {
-    refreshExamples();
-  });
-};
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-

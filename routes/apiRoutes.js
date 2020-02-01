@@ -1,7 +1,6 @@
 var db = require("../models");
 var axios = require("axios");
 
-
 module.exports = function (app) {
   // Get restaurants
   app.post("/api/restaurants", function (req, res) {
@@ -22,7 +21,6 @@ module.exports = function (app) {
 
     // Call the Open Street Maps API for location then call the TripAdvisor API passing in the
     // lat/lon from the Open Street Maps results
-
     // Open Street Maps call
     axios.get(url + queryTerm).then(function (response) {
       // console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
@@ -36,7 +34,8 @@ module.exports = function (app) {
           "x-rapidapi-key": process.env.TRIP_KEY
         }
       };
-      var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=5&currency=USD&distance=25&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
+
+      var url = "https://tripadvisor1.p.rapidapi.com/restaurants/list-by-latlng?limit=3&currency=USD&distance=25&lunit=km&combined_food=" + req.body.scores + "&lang=en_US&latitude=" + lat + "&longitude=" + lon;
       console.log(`TripAdvisor url = ${url}`);
       axios.get(url, options).then(function (response) {
         // console.log(`TA: axios response = ${JSON.stringify(response.data, null, 3)}`);
@@ -52,6 +51,7 @@ module.exports = function (app) {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+
         } else if (error.request) {
           // The request was made but no response was received
           // `error.request` is an object that comes back with details pertaining to the error that occurred.
@@ -80,9 +80,6 @@ module.exports = function (app) {
       }
       console.log(error.config);
     });
-
-    // TODO: logic for calculating restaurant to return goes here
-    // calculateTopFive(req.body.search);
   });
 
   // KB Sequelize Testing
@@ -138,8 +135,6 @@ module.exports = function (app) {
     });
   });
 
-  
-
   app.get("/api/validateloc/:location", function (req, res) {
     console.log(`/api/validateloc: req.params.location = ${req.params.location}`);
 
@@ -153,6 +148,7 @@ module.exports = function (app) {
         queryTerm += search[i].toLowerCase();
       }
     }
+
     axios.get(url + queryTerm).then(function (response) {
       console.log(`OSM: axios response = ${JSON.stringify(response.data, null, 3)}`);
       if (response.data.length > 0) {
@@ -165,10 +161,8 @@ module.exports = function (app) {
         res.json(false);
       }
     });
-    
   });
 
-  
 
   // Get user
   app.post("/api/user", function (req, res) {
@@ -188,9 +182,4 @@ module.exports = function (app) {
       }
     });
   });
-
-  
-  
 };
-
-

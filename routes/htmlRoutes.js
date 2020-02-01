@@ -1,10 +1,11 @@
 var db = require("../models");
 var axios = require("axios");
+
 module.exports = function (app) {
   // Load index page
   app.get("/", function (req, res) {
     // db.Example.findAll({}).then(function (dbExamples) {
-      res.render("index");
+    res.render("index");
     // });
   });
 
@@ -20,7 +21,6 @@ module.exports = function (app) {
       res.json(result);
     });
   });
-  
 
   app.get("/second/:cell", function (req, res) {
     console.log(`In app.get(/second/:cell), req.params.cell = ${JSON.stringify(req.params.cell)}`);
@@ -106,18 +106,15 @@ module.exports = function (app) {
       res.json(result);
     });
   });
+
   // Load survey page
   // Added by KB. This will launch the Survey Handlebars page
-  
   app.get("/survey", function (req, res) {
-    
     res.render("surveyUsingSurveyJS");
-    
   });
 
   // KB Sequelize Testing
   app.get("/api/tables/:table", function (req, res) {
-
     console.log(`htmlRoutes.js: req.params.table = ${req.params.table}`);
     switch (req.params.table) {
       case "users":
